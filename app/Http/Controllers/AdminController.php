@@ -259,7 +259,7 @@ class AdminController extends Controller
                 $path = $photo->store('dogs', 'public');
                 $dog->photos()->create([
                     'path' => $path,
-                    'is_main' => ($index === 0), // Set the first uploaded photo as main
+                    'is_main' => ($index === 0), // Set the first uploaded photo as main,
                 ]);
             }
         }

@@ -1,6 +1,6 @@
 <x-admin-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-white dark:text-gray-200 leading-tight">
             {{ __('Pet Management') }}
         </h2>
     </x-slot>
@@ -43,7 +43,11 @@
                                                     <img src="{{ asset('storage/' . $photoPath) }}" alt="{{ $pet->name }}" class="h-16 w-16 rounded-full object-cover">
                                                 @endif
                                             @else
-                                                <img src="{{ asset('img/pjeski/default.jpg') }}" alt="Default Dog" class="h-10 w-10 rounded-full object-cover">
+                                                @php
+                                                    $mainPhoto = $pet->photos->where('is_main', true)->first();
+                                                    $photoPath = $mainPhoto ? asset('storage/' . $mainPhoto->path) : asset('img/pjeski/default.jpg');
+                                                @endphp
+                                                <img src="{{ $photoPath }}" alt="{{ $pet->name }}" class="h-16 w-16 rounded-full object-cover">
                                             @endif
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">{{ $pet->name }}</td>

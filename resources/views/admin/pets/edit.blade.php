@@ -60,7 +60,10 @@
                             <div class="grid grid-cols-3 gap-4 mt-2">
                                 @foreach($pet->photos as $photo)
                                     <div class="relative">
-                                        <img src="{{ asset('storage/' . $photo->path) }}" alt="Pet Photo" class="w-full h-32 object-cover rounded-md">
+                                        <img src="{{ asset('storage/' . $photo->path) }}" alt="Pet Photo" class="w-32 h-32 object-cover rounded-md">
+                                    @if($photo->is_main)
+                                        <span class="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-bl-md">Main</span>
+                                    @endif
                                         <div class="absolute top-1 right-1">
                                             <input type="checkbox" name="existing_photos_to_delete[]" value="{{ $photo->id }}" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-red-600 shadow-sm focus:ring-red-500 dark:focus:ring-red-600 dark:focus:ring-offset-gray-800">
                                             <span class="text-sm text-gray-900 dark:text-gray-100">Delete</span>
