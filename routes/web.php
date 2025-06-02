@@ -65,6 +65,8 @@ Route::middleware(['auth', 'user'])->prefix('user')->name('user.')->group(functi
         Route::post('/dog-tinder/swipe', [App\Http\Controllers\DogTinderController::class, 'swipe'])->name('dog-tinder.swipe');
         Route::get('/dog-tinder/notifications', [App\Http\Controllers\DogTinderController::class, 'notifications'])->name('dog-tinder.notifications');
         Route::post('/dog-tinder/notifications/{id}/read', [App\Http\Controllers\DogTinderController::class, 'markNotificationAsRead'])->name('dog-tinder.notifications.read');
+
+        Route::get('/notifications/latest', [App\Http\Controllers\DogTinderController::class, 'latestNotifications'])->name('notifications.latest');
     });
 
 require __DIR__.'/auth.php';

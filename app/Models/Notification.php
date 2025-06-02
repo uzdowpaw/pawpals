@@ -2,36 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Notifications\DatabaseNotification;
 
-class Notification extends Model
+class Notification extends DatabaseNotification
 {
-    protected $fillable = [
-        'user_id',
-        'type',
-        'data',
-        'read_at'
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         'read_at' => 'datetime',
+        'data' => 'array',
     ];
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function getDataAttribute($value)
-    {
-        return json_decode($value, true);
-    }
-
-    public function setDataAttribute($value)
-    {
-        $this->attributes['data'] = json_encode($value);
-    }
 
     public function markAsRead()
     {

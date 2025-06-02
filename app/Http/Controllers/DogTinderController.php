@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Dog;
 use App\Models\DogMatch;
-use App\Models\Notification;
+use App\Notifications\MatchNotification;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -67,8 +67,8 @@ class DogTinderController extends Controller
                 $isMatch = true;
                 $matchedUser = User::find($dogOwnerId);
 
-                // Create notifications for both users
-                $this->createMatchNotifications($user, $matchedUser, $dog);
+                    $user->notify(new MatchNotification($matchedUser, $dog));
+                $matchedUser->notify(new MatchNotification($user, $dog));
             }
         }
 
@@ -82,50 +82,27 @@ class DogTinderController extends Controller
     public function notifications()
     {
         $user = Auth::user();
-        $notifications = Notification::where('user_id', $user->id)
-            ->orderBy('created_at', 'desc')
-            ->paginate(20);
+        $notifications = $user->notifications()->paginate(20);
 
         return view('user.dog-tinder.notifications', compact('notifications'));
     }
 
     public function markNotificationAsRead($id)
     {
-        $notification = Notification::where('user_id', Auth::id())
-            ->where('id', $id)
-            ->firstOrFail();
+        $user = Auth::user();
+        $notification = $user->notifications()->where('id', $id)->firstOrFail();
 
         $notification->markAsRead();
 
         return response()->json(['success' => true]);
     }
 
-    private function createMatchNotifications($user1, $user2, $dog)
+    public function latestNotifications()
     {
-        // Notification for user1 (the one who just liked)
-        Notification::create([
-            'user_id' => $user1->id,
-            'type' => 'match',
-            'data' => [
-                'message' => "It's a match! You and {$user2->name} liked each other's dogs!",
-                'matched_user_id' => $user2->id,
-                'matched_user_name' => $user2->name,
-                'dog_id' => $dog->id,
-                'dog_name' => $dog->name
-            ]
-        ]);
 
-        // Notification for user2 (the dog owner)
-        Notification::create([
-            'user_id' => $user2->id,
-            'type' => 'match',
-            'data' => [
-                'message' => "It's a match! You and {$user1->name} liked each other's dogs!",
-                'matched_user_id' => $user1->id,
-                'matched_user_name' => $user1->name,
-                'dog_id' => $dog->id,
-                'dog_name' => $dog->name
-            ]
-        ]);
+        $user = Auth::user();
+        $notifications = $user->unreadNotifications()->latest()->take(5)->get(); // Get latest 5 unread notifications
+
+        return response()->json($notifications);
     }
 }

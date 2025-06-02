@@ -139,7 +139,7 @@ function swipeDog(dogId, action) {
 }
 
 function showMatchModal(matchedUser) {
-    document.getElementById('matchMessage').textContent = `You and ${matchedUser} liked each other's dogs!`;
+    document.getElementById('matchMessage').textContent = `💕 You and ${matchedUser} liked each other's dogs!`;
     document.getElementById('matchModal').classList.remove('hidden');
     document.getElementById('matchModal').classList.add('flex');
 }

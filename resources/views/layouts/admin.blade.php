@@ -193,6 +193,7 @@
                                     Profile
                                 </a>
                             </li>
+
                         @endif
                     </ul>
                 </nav>
@@ -222,22 +223,28 @@
             <!-- Main Content -->
             <div class="flex-1 flex flex-col overflow-hidden">
                 <!-- Top Bar -->
-                <header class="glass-effect border-b border-white/20 shadow-lg">
-                    <div class="px-6 py-4">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                @isset($header)
-                                    {{ $header }}
-                                @else
-                                    <h1 class="text-2xl font-semibold text-white">Dashboard</h1>
-                                @endisset
-                            </div>
-                            <div class="flex items-center space-x-4">
-                                <div class="text-sm text-blue-100">
-                                    Welcome back, {{ Auth::user()->name }}! 👋
-                                </div>
-                            </div>
+                <header class="flex justify-between items-center p-6 bg-white/10 backdrop-blur-lg shadow-md">
+                    <div class="flex items-center">
+                        <h2 class="font-semibold text-sm text-white leading-tight">
+                            {{ $header ?? 'Dashboard' }}
+                        </h2>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <button id="notification-bell" class="text-white hover:text-gray-300 transition duration-300 ease-in-out relative">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                                </svg>
+                                @if(Auth::user()->unreadNotifications->count() > 0)
+                                    <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                                        {{ Auth::user()->unreadNotifications->count() }}
+                                    </span>
+                                @endif
+                            </button>
                         </div>
+                        <span class="text-white text-sm">Welcome, {{ Auth::user()->name }}!</span>
+                       
                     </div>
                 </header>
 
@@ -249,5 +256,85 @@
                 </main>
             </div>
         </div>
+
+        <!-- Notification Modal -->
+        <div id="notification-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative">
+                <h3 class="text-lg font-semibold mb-4">Notifications</h3>
+                <button id="close-modal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <div id="notifications-content" class="max-h-80 overflow-y-auto">
+                    <!-- Notifications will be loaded here -->
+                    <p class="text-gray-500">Loading notifications...</p>
+                </div>
+                <div class="mt-4 text-right">
+                    
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const notificationBell = document.getElementById('notification-bell');
+                const notificationModal = document.getElementById('notification-modal');
+                const closeModal = document.getElementById('close-modal');
+                const notificationsContent = document.getElementById('notifications-content');
+
+                notificationBell.addEventListener('click', function () {
+                    notificationModal.classList.remove('hidden');
+                    fetchNotifications();
+                });
+
+                closeModal.addEventListener('click', function () {
+                    notificationModal.classList.add('hidden');
+                });
+
+                notificationModal.addEventListener('click', function (e) {
+                    if (e.target === notificationModal) {
+                        notificationModal.classList.add('hidden');
+                    }
+                });
+
+                function fetchNotifications() {
+                    notificationsContent.innerHTML = '<p class="text-gray-500">Loading notifications...</p>';
+                    fetch('/user/notifications/latest') // This route needs to be defined
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            return response.text(); // Get raw text to debug
+                        })
+                        .then(text => {
+                            console.log('Raw response text:', text);
+                            const data = JSON.parse(text); // Manually parse after logging
+
+                            if (data.length > 0) {
+                                notificationsContent.innerHTML = '';
+                                data.forEach(notification => {
+                                    const notificationElement = document.createElement('div');
+                                    notificationElement.classList.add('p-3', 'border-b', 'border-gray-200', 'last:border-b-0');
+                                    notificationElement.innerHTML = `
+                                        <p class="font-semibold">${notification.data.message}</p>
+                                        <p class="text-sm text-gray-600">${new Date(notification.created_at).toLocaleString()}</p>
+                                        ${notification.read_at ? '' : '<span class="text-xs text-blue-500">New</span>'}
+                                    `;
+                                    notificationsContent.appendChild(notificationElement);
+                                });
+                            } else {
+                                notificationsContent.innerHTML = '<p class="text-gray-500">No new notifications.</p>';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching notifications:', error);
+                            // Ensure 'text' is accessible here, if it was defined in the previous .then()
+                            // If the error occurs before .then(text => ...), 'text' might not be defined.
+                            // For now, we'll assume 'text' is available from the previous successful response.text() call
+                            // or handle the case where it might not be.
+                            notificationsContent.innerHTML = `<p class="text-red-500">Failed to load notifications.</p><p class="text-red-500">Raw response (for debugging):</p><pre class="text-xs text-red-400 whitespace-pre-wrap">${error.message}</pre>`;
+                        });
+                }
+            });
+        </script>
     </body>
 </html>
