@@ -54,6 +54,18 @@
                             <x-input-error :messages="$errors->get('behavior_description')" class="mt-2" />
                         </div>
 
+                        <!-- Assign to User -->
+                        <div class="mt-4">
+                            <x-input-label for="user_id" :value="__('Assign to User (Optional)')" />
+                            <select id="user_id" name="user_id" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                                <option value="">-- Select a User --</option>
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}" {{ old('user_id', $pet->user_id) == $user->id ? 'selected' : '' }}>{{ $user->name }} ({{ $user->email }})</option>
+                                @endforeach
+                            </select>
+                            <x-input-error :messages="$errors->get('user_id')" class="mt-2" />
+                        </div>
+
                         <!-- Existing Photos -->
                         <div class="mt-4">
                             <x-input-label :value="__('Current Photos')" />

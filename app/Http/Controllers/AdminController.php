@@ -273,7 +273,8 @@ class AdminController extends Controller
      */
     public function editPet(Dog $pet)
     {
-        return view('admin.pets.edit', compact('pet'));
+        $users = User::all(); // Fetch all users
+        return view('admin.pets.edit', compact('pet', 'users'));
     }
 
     /**
@@ -291,6 +292,7 @@ class AdminController extends Controller
             'existing_photos_to_delete' => ['nullable', 'array'],
             'existing_photos_to_delete.*' => ['exists:photos,id'],
             'main_photo_id' => ['nullable', 'exists:photos,id'],
+            'user_id' => ['nullable', 'exists:users,id'], // Add user_id validation
         ]);
 
         $pet->update([
@@ -299,6 +301,7 @@ class AdminController extends Controller
             'age' => $request->age,
             'size' => $request->size,
             'behavior_description' => $request->behavior_description,
+            'user_id' => $request->user_id, // Assign user_id
         ]);
 
         // Handle photo deletions
