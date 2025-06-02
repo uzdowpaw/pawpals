@@ -59,6 +59,12 @@ Route::middleware(['auth', 'user'])->prefix('user')->name('user.')->group(functi
         // User Pet Management Routes
         Route::resource('pets', UserPetController::class)->except(['show']);
         Route::delete('pets/photos/{photo}', [UserPetController::class, 'destroyPhoto'])->name('pets.photos.destroy');
+        
+        // Dog Tinder routes
+        Route::get('/browse-dogs', [App\Http\Controllers\DogTinderController::class, 'index'])->name('dog-tinder.index');
+        Route::post('/dog-tinder/swipe', [App\Http\Controllers\DogTinderController::class, 'swipe'])->name('dog-tinder.swipe');
+        Route::get('/dog-tinder/notifications', [App\Http\Controllers\DogTinderController::class, 'notifications'])->name('dog-tinder.notifications');
+        Route::post('/dog-tinder/notifications/{id}/read', [App\Http\Controllers\DogTinderController::class, 'markNotificationAsRead'])->name('dog-tinder.notifications.read');
     });
 
 require __DIR__.'/auth.php';

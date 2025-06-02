@@ -74,13 +74,13 @@
             </div>
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <a href="#" class="flex items-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                    <a href="{{ route('user.dog-tinder.index') }}" class="flex items-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                         <svg class="w-8 h-8 text-blue-600 dark:text-blue-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
                         </svg>
                         <div>
                             <p class="text-sm font-medium text-gray-900 dark:text-white">Browse Dogs</p>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Find your perfect companion</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Discover dogs and find your perfect match!</p>
                         </div>
                     </a>
                     <a href="#" class="flex items-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">

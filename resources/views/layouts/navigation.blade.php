@@ -15,6 +15,16 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @auth
+                        @if(auth()->user()->role === 'user')
+                            <x-nav-link :href="route('user.dog-tinder.index')" :active="request()->routeIs('user.dog-tinder.*')">
+                                🐕 Browse Dogs
+                            </x-nav-link>
+                            <x-nav-link :href="route('user.dog-tinder.notifications')" :active="request()->routeIs('user.dog-tinder.notifications')">
+                                🔔 Notifications
+                            </x-nav-link>
+                        @endif
+                    @endauth
                 </div>
             </div>
 
@@ -70,6 +80,16 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @auth
+                @if(auth()->user()->role === 'user')
+                    <x-responsive-nav-link :href="route('user.dog-tinder.index')" :active="request()->routeIs('user.dog-tinder.*')">
+                        🐕 Browse Dogs
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('user.dog-tinder.notifications')" :active="request()->routeIs('user.dog-tinder.notifications')">
+                        🔔 Notifications
+                    </x-responsive-nav-link>
+                @endif
+            @endauth
         </div>
 
         <!-- Responsive Settings Options -->
