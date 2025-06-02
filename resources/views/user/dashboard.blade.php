@@ -79,7 +79,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
                         </svg>
                         <div>
-                            <p class="text-sm font-medium text-gray-900 dark:text-white">Browse Dogs</p>
+                            <p class="text-sm font-medium text-gray-900 dark:text-white">Brows Dogs</p>
                             <p class="text-sm text-gray-500 dark:text-gray-400">Discover dogs and find your perfect match!</p>
                         </div>
                     </a>
