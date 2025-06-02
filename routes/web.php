@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserPetController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -48,5 +50,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Reports
     Route::get('/reports', [AdminController::class, 'reports'])->name('reports');
 });
+
+
+// User Routes
+Route::middleware(['auth', 'user'])->prefix('user')->name('user.')->group(function () {
+        Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+
+        // User Pet Management Routes
+        Route::resource('pets', UserPetController::class)->except(['show']);
+        Route::delete('pets/photos/{photo}', [UserPetController::class, 'destroyPhoto'])->name('pets.photos.destroy');
+    });
 
 require __DIR__.'/auth.php';

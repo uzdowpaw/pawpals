@@ -106,43 +106,94 @@
                 <!-- Navigation -->
                 <nav class="flex-1 p-4">
                     <ul class="space-y-2">
-                        <li>
-                            <a href="{{ route('admin.dashboard') }}" 
-                               class="nav-link flex items-center p-3 rounded-lg hover:bg-white/20 transition-all duration-300 hover-scale {{ request()->routeIs('admin.dashboard') ? 'bg-white/20 shadow-lg' : '' }}">
-                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"></path>
-                                </svg>
-                                Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('admin.pets.index') }}" 
-                               class="nav-link flex items-center p-3 rounded-lg hover:bg-white/20 transition-all duration-300 hover-scale {{ request()->routeIs('admin.pets.*') ? 'bg-white/20 shadow-lg' : '' }}">
-                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                                </svg>
-                                Manage Pets
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('admin.adoptions.index') }}" 
-                               class="nav-link flex items-center p-3 rounded-lg hover:bg-white/20 transition-all duration-300 hover-scale {{ request()->routeIs('admin.adoptions.*') ? 'bg-white/20 shadow-lg' : '' }}">
-                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                </svg>
-                                Adoption Requests
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('admin.users.index') }}" 
-                               class="nav-link flex items-center p-3 rounded-lg hover:bg-white/20 transition-all duration-300 hover-scale {{ request()->routeIs('admin.users.*') ? 'bg-white/20 shadow-lg' : '' }}">
-                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-                                </svg>
-                                Manage Users
-                            </a>
-                        </li>
+                        @if(Auth::user()->role === 'admin')
+                            <li>
+                                <a href="{{ route('admin.dashboard') }}" 
+                                   class="nav-link flex items-center p-3 rounded-lg hover:bg-white/20 transition-all duration-300 hover-scale {{ request()->routeIs('admin.dashboard') ? 'bg-white/20 shadow-lg' : '' }}">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"></path>
+                                    </svg>
+                                    Admin Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.pets.index') }}" 
+                                   class="nav-link flex items-center p-3 rounded-lg hover:bg-white/20 transition-all duration-300 hover-scale {{ request()->routeIs('admin.pets.*') ? 'bg-white/20 shadow-lg' : '' }}">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                    </svg>
+                                    Manage Pets
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.adoptions.index') }}" 
+                                   class="nav-link flex items-center p-3 rounded-lg hover:bg-white/20 transition-all duration-300 hover-scale {{ request()->routeIs('admin.adoptions.*') ? 'bg-white/20 shadow-lg' : '' }}">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    Adoption Requests
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.users.index') }}" 
+                                   class="nav-link flex items-center p-3 rounded-lg hover:bg-white/20 transition-all duration-300 hover-scale {{ request()->routeIs('admin.users.*') ? 'bg-white/20 shadow-lg' : '' }}">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                                    </svg>
+                                    Manage Users
+                                </a>
+                            </li>
+                        @endif
+
+                        @if(Auth::user()->role === 'user')
+                            <li>
+                                <a href="{{ route('user.dashboard') }}"
+                                   class="nav-link flex items-center p-3 rounded-lg hover:bg-white/20 transition-all duration-300 hover-scale {{ request()->routeIs('user.dashboard') ? 'bg-white/20 shadow-lg' : '' }}">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"></path>
+                                    </svg>
+                                    User Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('user.pets.index') }}"
+                                   class="nav-link flex items-center p-3 rounded-lg hover:bg-white/20 transition-all duration-300 hover-scale {{ request()->routeIs('user.pets.index') || request()->routeIs('user.pets.create') || request()->routeIs('user.pets.edit') ? 'bg-white/20 shadow-lg' : '' }}">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                    </svg>
+                                    My Pets
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" 
+                                   class="nav-link flex items-center p-3 rounded-lg hover:bg-white/20 transition-all duration-300 hover-scale">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                    </svg>
+                                    Browse Dogs
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" 
+                                   class="nav-link flex items-center p-3 rounded-lg hover:bg-white/20 transition-all duration-300 hover-scale">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    My Applications
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('profile.edit') }}" 
+                                   class="nav-link flex items-center p-3 rounded-lg hover:bg-white/20 transition-all duration-300 hover-scale {{ request()->routeIs('profile.edit') ? 'bg-white/20 shadow-lg' : '' }}">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                                    </svg>
+                                    Profile
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </nav>
 
