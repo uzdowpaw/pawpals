@@ -39,13 +39,26 @@ class DogFactory extends Factory
         return $this->afterCreating(function (Dog $dog) {
             $numPhotos = $this->faker->numberBetween(1, 3);
             for ($i = 0; $i < $numPhotos; $i++) {
-                // Generate a placeholder image and store it
-                $filename = 'img/pjeski/default.jpg';
+                // Ensure the photos directory exists in storage
+                if (!Storage::disk('public')->exists('photos')) {
+                    Storage::disk('public')->makeDirectory('photos');
+                }
+
+                // Copy the default image to the storage/app/public/photos directory if it doesn't exist
+                $defaultImageName = 'default_factory_dog.jpg';
+                $storagePath = 'photos/' . $defaultImageName;
+                if (!Storage::disk('public')->exists($storagePath)) {
+                    // Assuming default.jpg is in public/img/pjeski/
+                    $sourcePath = public_path('img/pjeski/default.jpg');
+                    if (file_exists($sourcePath)) {
+                        Storage::disk('public')->put($storagePath, file_get_contents($sourcePath));
+                    }
+                }
 
                 $isMain = ($i === 0); // Set the first photo as main
 
                 $dog->photos()->create([
-                    'path' => $filename,
+                    'path' => $storagePath, // Store the path relative to storage/app/public
                     'is_main' => $isMain,
                 ]);
             }

@@ -14,7 +14,7 @@
                     <!-- Dog Image -->
                     <div class="relative h-96">
                         @if($dog->photos->count() > 0)
-                            <img src="/{{ $dog->photos->first()->path }}" 
+                            <img src="{{ asset('storage/' . $dog->photos->first()->path) }}" 
                                  alt="{{ $dog->name }}" 
                                  class="w-full h-full object-cover">
                         @else
