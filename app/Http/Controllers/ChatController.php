@@ -16,8 +16,38 @@ class ChatController extends Controller
      */
     public function getUsers()
     {
-        $users = User::where('id', '!=', Auth::id())->get();
+        $currentUser = Auth::user();
+        
+        $users = User::where('id', '!=', $currentUser->id)
+            ->get()
+            ->map(function ($user) use ($currentUser) {
+                // Check if users are matched (you can customize this logic based on your matching system)
+                $isMatched = $this->checkIfUsersAreMatched($currentUser, $user);
+                
+                return [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role' => $user->role,
+                    'is_matched' => $isMatched,
+                ];
+            });
+            
         return response()->json($users);
+    }
+    
+    /**
+     * Check if two users are matched (customize this logic based on your matching system)
+     */
+    private function checkIfUsersAreMatched($user1, $user2)
+    {
+        // For now, we'll consider users matched if they have any conversations together
+        // You can customize this logic based on your actual matching system
+        return $user1->conversations()
+            ->whereHas('users', function ($query) use ($user2) {
+                $query->where('users.id', $user2->id);
+            })
+            ->exists();
     }
 
     /**

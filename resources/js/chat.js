@@ -72,14 +72,31 @@ const chatModule = {
             userItem.className = 'chat-user-item';
             userItem.dataset.userId = user.id;
             
+            // Determine status indicator
+            const statusIndicator = user.is_matched ? 
+                '<div class="w-3 h-3 bg-green-500 rounded-full border-2 border-white absolute -top-1 -right-1"></div>' : 
+                '<div class="w-3 h-3 bg-gray-400 rounded-full border-2 border-white absolute -top-1 -right-1"></div>';
+            
+            // Determine admin indicator
+            const adminIndicator = user.role === 'admin' ? 
+                '<div class="ml-2 px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full font-medium">Admin</div>' : '';
+            
             userItem.innerHTML = `
                 <div class="flex items-center p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer">
-                    <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold mr-3">
-                        ${user.name.charAt(0).toUpperCase()}
+                    <div class="relative">
+                        <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold mr-3">
+                            ${user.name.charAt(0).toUpperCase()}
+                        </div>
+                        ${statusIndicator}
                     </div>
-                    <div>
-                        <div class="font-medium">${user.name}</div>
-                        <div class="text-xs text-gray-500 dark:text-gray-400">Click to chat</div>
+                    <div class="flex-1">
+                        <div class="flex items-center">
+                            <div class="font-medium">${user.name}</div>
+                            ${adminIndicator}
+                        </div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">
+                            ${user.is_matched ? 'Matched • Click to chat' : 'Click to chat'}
+                        </div>
                     </div>
                 </div>
             `;

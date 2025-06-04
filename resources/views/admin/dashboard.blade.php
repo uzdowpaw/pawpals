@@ -75,26 +75,26 @@
             </div>
             <div class="p-6">
                 @if(isset($recentUsers) && count($recentUsers) > 0)
-                    <div class="space-y-4">
-                        @foreach($recentUsers as $user)
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">
-                                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ substr($user->name, 0, 1) }}</span>
-                                    </div>
-                                    <div class="ml-3">
-                                        <p class="text-sm font-medium text-gray-900 dark:text-white">{{ $user->name }}</p>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ $user->email }}</p>
-                                    </div>
-                                </div>
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                                    {{ ucfirst($user->role) }}
-                                </span>
+                <div class="space-y-4">
+                    @foreach($recentUsers as $user)
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">
+                                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ substr($user->name, 0, 1) }}</span>
                             </div>
-                        @endforeach
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900 dark:text-white">{{ $user->name }}</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $user->email }}</p>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                            {{ ucfirst($user->role) }}
+                        </span>
                     </div>
+                    @endforeach
+                </div>
                 @else
-                    <p class="text-gray-500 dark:text-gray-400 text-center py-4">No recent users found.</p>
+                <p class="text-gray-500 dark:text-gray-400 text-center py-4">No recent users found.</p>
                 @endif
                 <div class="mt-4">
                     <a href="{{ route('admin.users.index') }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-medium">
@@ -178,5 +178,14 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Chat Components -->
+    <div id="chat-sidebar"></div>
+    <div id="chat-windows"></div>
+    <div class="chat-toggle-button">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
     </div>
 </x-admin-layout>

@@ -23,7 +23,11 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    if (auth()->user()->role === 'admin') {
+        return redirect()->route('admin.dashboard');
+    } else {
+        return redirect()->route('user.dashboard');
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
