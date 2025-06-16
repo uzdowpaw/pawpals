@@ -234,41 +234,53 @@
             </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- Top Bar -->
-            <header class="flex justify-between items-center p-6 bg-white/10 backdrop-blur-lg shadow-md">
-                <div class="flex items-center">
-                    <h2 class="font-semibold text-sm text-white leading-tight">
-                        {{ $header ?? 'Dashboard' }}
-                    </h2>
-                </div>
-
-                <div class="flex items-center space-x-4">
-                    <div class="relative">
-                        <button id="notification-bell" class="text-white hover:text-gray-300 transition duration-300 ease-in-out relative">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-                            </svg>
-                            @if(Auth::user()->unreadNotifications->count() > 0)
-                            <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
-                                {{ Auth::user()->unreadNotifications->count() }}
-                            </span>
-                            @endif
-                        </button>
-                    </div>
-                    <span class="text-white text-sm">Welcome, {{ Auth::user()->name }}!</span>
-
-                </div>
-            </header>
-
+        <!-- Main Content and Chat Sidebar -->
+        <div class="flex-1 flex flex-row overflow-hidden">
             <!-- Main Content Area -->
-            <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
-                <div class="max-w-7xl mx-auto">
-                    {{ $slot }}
-                </div>
-            </main>
+            <div class="flex-1 flex flex-col overflow-hidden">
+                <!-- Top Bar -->
+                <header class="flex justify-between items-center p-6 bg-white/10 backdrop-blur-lg shadow-md">
+                    <div class="flex items-center">
+                        <h2 class="font-semibold text-sm text-white leading-tight">
+                            {{ $header ?? 'Dashboard' }}
+                        </h2>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <button id="notification-bell" class="text-white hover:text-gray-300 transition duration-300 ease-in-out relative">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                                </svg>
+                                @if(Auth::user()->unreadNotifications->count() > 0)
+                                <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                                    {{ Auth::user()->unreadNotifications->count() }}
+                                </span>
+                                @endif
+                            </button>
+                        </div>
+                        <span class="text-white text-sm">Welcome, {{ Auth::user()->name }}!</span>
+                    </div>
+                </header>
+
+                <!-- Page Content -->
+                <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
+                    <div class="max-w-7xl mx-auto">
+                        {{ $slot }}
+                    </div>
+                </main>
+            </div>
+
+            <!-- Chat Sidebar -->
+            <div id="chat-sidebar" class="w-80 bg-gray-800 bg-opacity-50 backdrop-blur-md text-white p-4 border-l border-gray-700 flex flex-col h-full">
+                @include('chat.sidebar')
+            </div>
         </div>
+    </div>
+
+    <!-- Chat Windows (if needed, can be positioned relative to chat-sidebar or globally) -->
+    <div id="chat-windows-container">
+        @include('chat.windows')
     </div>
 
     <!-- Notification Modal -->

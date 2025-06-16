@@ -1,18 +1,13 @@
 /* Chat Sidebar */
 #chat-sidebar {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 240px;
-    height: 100vh;
+    width: 320px;
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(147, 51, 234, 0.15));
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-left: 1px solid rgba(255, 255, 255, 0.2);
-    z-index: 40;
-    padding-top: 70px; /* Space for the header */
     overflow-y: auto;
     box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
 }
 
 .dark #chat-sidebar {
@@ -46,7 +41,8 @@
 #chat-windows {
     position: fixed;
     bottom: 0;
-    right: 250px; /* Space for sidebar */
+    right: 340px;
+    /* Adjusted for new sidebar width */
     display: flex;
     flex-direction: row;
     gap: 8px;
@@ -77,7 +73,8 @@
 }
 
 .chat-window.chat-minimized {
-    height: 42px; /* Header height only */
+    height: 42px;
+    /* Header height only */
 }
 
 /* Chat Header */
@@ -244,38 +241,49 @@
 }
 
 /* Responsive Adjustments */
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
     #chat-sidebar {
-        width: 220px;
+        width: 280px;
     }
-    
+
     #chat-windows {
-        right: 230px;
+        right: 300px;
     }
-    
+
     .chat-window {
         width: 260px;
         height: 320px;
     }
 }
 
+@media (max-width: 1024px) {
+    #chat-sidebar {
+        width: 240px;
+    }
+
+    #chat-windows {
+        right: 260px;
+    }
+}
+
 @media (max-width: 768px) {
+    .flex-row {
+        flex-direction: column !important;
+    }
+
     #chat-sidebar {
         width: 100%;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
+        height: 300px;
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
     }
-    
-    #chat-sidebar.active {
-        transform: translateX(0);
-    }
-    
+
     #chat-windows {
         right: 10px;
         left: 10px;
         justify-content: center;
     }
-    
+
     .chat-window {
         width: 100%;
         max-width: 320px;
