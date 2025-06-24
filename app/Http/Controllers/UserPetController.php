@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Breed;
 use Illuminate\Support\Facades\Storage;
 
 class UserPetController extends Controller
@@ -24,7 +25,8 @@ class UserPetController extends Controller
      */
     public function create()
     {
-        return view('user.pets.create');
+        $breeds = Breed::orderBy('name')->get();
+        return view('user.pets.create', compact('breeds'));
     }
 
     /**
@@ -75,7 +77,8 @@ class UserPetController extends Controller
         if ($pet->user_id !== Auth::id()) {
             abort(403);
         }
-        return view('user.pets.edit', compact('pet'));
+        $breeds = Breed::orderBy('name')->get();
+        return view('user.pets.edit', compact('pet', 'breeds'));
     }
 
     /**

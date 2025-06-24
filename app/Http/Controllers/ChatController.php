@@ -41,13 +41,8 @@ class ChatController extends Controller
      */
     private function checkIfUsersAreMatched($user1, $user2)
     {
-        // For now, we'll consider users matched if they have any conversations together
-        // You can customize this logic based on your actual matching system
-        return $user1->conversations()
-            ->whereHas('users', function ($query) use ($user2) {
-                $query->where('users.id', $user2->id);
-            })
-            ->exists();
+        // Check if users are matched through the dog tinder system
+        return \App\Models\DogMatch::checkMutualMatch($user1->id, $user2->id);
     }
 
     /**

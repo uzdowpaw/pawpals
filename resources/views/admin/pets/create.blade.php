@@ -21,10 +21,13 @@
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         </div>
 
-                        <!-- Breed -->
                         <div class="mt-4">
                             <x-input-label for="breed" :value="__('Breed')" />
-                            <x-text-input id="breed" class="block mt-1 w-full" type="text" name="breed" :value="old('breed')" required />
+                            <select id="breed" name="breed" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                                @foreach($breeds as $breed)
+                                    <option value="{{ $breed->name }}">{{ $breed->name }}</option>
+                                @endforeach
+                            </select>
                             <x-input-error :messages="$errors->get('breed')" class="mt-2" />
                         </div>
 

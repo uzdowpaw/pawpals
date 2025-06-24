@@ -14,6 +14,12 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        html, body {
+            overflow: hidden;
+        }
+    </style>
 </head>
 
 <body class="font-sans antialiased" data-user-id="{{ auth()->id() }}">

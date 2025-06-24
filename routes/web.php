@@ -24,9 +24,9 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     if (auth()->user()->role === 'admin') {
-        return redirect()->route('admin.dashboard');
+        return redirect('/admin/dashboard');
     } else {
-        return redirect()->route('user.dashboard');
+        return redirect('/user/dashboard');
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
 

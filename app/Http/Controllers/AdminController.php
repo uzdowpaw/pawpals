@@ -10,6 +10,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use App\Models\Breed;
 use App\Models\Photo;
 
 class AdminController extends Controller
@@ -228,7 +229,8 @@ class AdminController extends Controller
      */
     public function createPet()
     {
-        return view('admin.pets.create');
+        $breeds = Breed::orderBy('name')->get();
+        return view('admin.pets.create', compact('breeds'));
     }
 
     /**
@@ -274,7 +276,8 @@ class AdminController extends Controller
     public function editPet(Dog $pet)
     {
         $users = User::all(); // Fetch all users
-        return view('admin.pets.edit', compact('pet', 'users'));
+        $breeds = Breed::orderBy('name')->get();
+        return view('admin.pets.edit', compact('pet', 'users', 'breeds'));
     }
 
     /**

@@ -25,7 +25,11 @@
                         <!-- Breed -->
                         <div class="mt-4">
                             <x-input-label for="breed" :value="__('Breed')" />
-                            <x-text-input id="breed" class="block mt-1 w-full" type="text" name="breed" :value="old('breed', $pet->breed)" required />
+                            <select id="breed" name="breed" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
+                                @foreach($breeds as $breedOption)
+                                    <option value="{{ $breedOption->name }}" {{ old('breed', $pet->breed) == $breedOption->name ? 'selected' : '' }}>{{ $breedOption->name }}</option>
+                                @endforeach
+                            </select>
                             <x-input-error :messages="$errors->get('breed')" class="mt-2" />
                         </div>
 
@@ -60,7 +64,7 @@
                             <select id="user_id" name="user_id" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                                 <option value="">-- Select a User --</option>
                                 @foreach($users as $user)
-                                    <option value="{{ $user->id }}" {{ old('user_id', $pet->user_id) == $user->id ? 'selected' : '' }}>{{ $user->name }} ({{ $user->email }})</option>
+                                <option value="{{ $user->id }}" {{ old('user_id', $pet->user_id) == $user->id ? 'selected' : '' }}>{{ $user->name }} ({{ $user->email }})</option>
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('user_id')" class="mt-2" />
@@ -71,20 +75,20 @@
                             <x-input-label :value="__('Current Photos')" />
                             <div class="grid grid-cols-3 gap-4 mt-2">
                                 @foreach($pet->photos as $photo)
-                                    <div class="relative">
-                                        <img src="{{ asset('storage/' . $photo->path) }}" alt="Pet Photo" class="w-32 h-32 object-cover rounded-md">
+                                <div class="relative">
+                                    <img src="{{ asset('storage/' . $photo->path) }}" alt="Pet Photo" class="w-32 h-32 object-cover rounded-md">
                                     @if($photo->is_main)
-                                        <span class="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-bl-md">Main</span>
+                                    <span class="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-bl-md">Main</span>
                                     @endif
-                                        <div class="absolute top-1 right-1">
-                                            <input type="checkbox" name="existing_photos_to_delete[]" value="{{ $photo->id }}" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-red-600 shadow-sm focus:ring-red-500 dark:focus:ring-red-600 dark:focus:ring-offset-gray-800">
-                                            <span class="text-sm text-gray-900 dark:text-gray-100">Delete</span>
-                                        </div>
-                                        <div class="absolute bottom-1 left-1">
-                                            <input type="radio" name="main_photo_id" value="{{ $photo->id }}" {{ $photo->is_main ? 'checked' : '' }} class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800">
-                                            <span class="text-sm text-gray-900 dark:text-gray-100">Main</span>
-                                        </div>
+                                    <div class="absolute top-1 right-1">
+                                        <input type="checkbox" name="existing_photos_to_delete[]" value="{{ $photo->id }}" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-red-600 shadow-sm focus:ring-red-500 dark:focus:ring-red-600 dark:focus:ring-offset-gray-800">
+                                        <span class="text-sm text-gray-900 dark:text-gray-100">Delete</span>
                                     </div>
+                                    <div class="absolute bottom-1 left-1">
+                                        <input type="radio" name="main_photo_id" value="{{ $photo->id }}" {{ $photo->is_main ? 'checked' : '' }} class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800">
+                                        <span class="text-sm text-gray-900 dark:text-gray-100">Main</span>
+                                    </div>
+                                </div>
                                 @endforeach
                             </div>
                             <x-input-error :messages="$errors->get('existing_photos_to_delete')" class="mt-2" />
