@@ -20,6 +20,9 @@
                             <x-nav-link :href="route('user.dog-tinder.index')" :active="request()->routeIs('user.dog-tinder.*')">
                                 🐕 Browse Dogs
                             </x-nav-link>
+                            <x-nav-link :href="route('user.pet-care.index')" :active="request()->routeIs('user.pet-care.*')">
+                                🐾 Pet Care
+                            </x-nav-link>
                         @endif
                     @endauth
                 </div>
@@ -81,6 +84,9 @@
                 @if(auth()->user()->role === 'user')
                     <x-responsive-nav-link :href="route('user.dog-tinder.index')" :active="request()->routeIs('user.dog-tinder.*')">
                         🐕 Browse Dogs
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('user.pet-care.index')" :active="request()->routeIs('user.pet-care.*')">
+                        🐾 Pet Care
                     </x-responsive-nav-link>
                 @endif
             @endauth

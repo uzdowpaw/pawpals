@@ -91,6 +91,27 @@ Route::middleware(['auth', 'user'])->prefix('user')->name('user.')->group(functi
     Route::post('/dog-tinder/notifications/{id}/read', [App\Http\Controllers\DogTinderController::class, 'markNotificationAsRead'])->name('dog-tinder.notifications.read');
 
     Route::get('/notifications/latest', [App\Http\Controllers\DogTinderController::class, 'latestNotifications'])->name('notifications.latest');
+
+    // Pet Care Routes
+    Route::prefix('pet-care')->name('pet-care.')->group(function () {
+        Route::get('/', [App\Http\Controllers\PetCareController::class, 'index'])->name('index');
+
+        // Pet-specific routes
+        Route::get('/pets/{pet}/reminders', [App\Http\Controllers\PetCareController::class, 'petReminders'])->name('pet.reminders');
+        Route::get('/pets/{pet}/reminders/create', [App\Http\Controllers\PetCareController::class, 'createReminder'])->name('pet.reminders.create');
+        Route::post('/pets/{pet}/reminders', [App\Http\Controllers\PetCareController::class, 'storeReminder'])->name('pet.reminders.store');
+
+        Route::get('/pets/{pet}/logs', [App\Http\Controllers\PetCareController::class, 'petLogs'])->name('pet.logs');
+        Route::get('/pets/{pet}/logs/create', [App\Http\Controllers\PetCareController::class, 'createLog'])->name('pet.logs.create');
+        Route::post('/pets/{pet}/logs', [App\Http\Controllers\PetCareController::class, 'storeLog'])->name('pet.logs.store');
+
+        // Reminder actions
+        Route::patch('/reminders/{reminder}/complete', [App\Http\Controllers\PetCareController::class, 'completeReminder'])->name('reminders.complete');
+        Route::delete('/reminders/{reminder}', [App\Http\Controllers\PetCareController::class, 'deleteReminder'])->name('reminders.delete');
+
+        // Log actions
+        Route::delete('/logs/{log}', [App\Http\Controllers\PetCareController::class, 'deleteLog'])->name('logs.delete');
+    });
 });
 
 require __DIR__ . '/auth.php';

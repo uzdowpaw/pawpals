@@ -17,13 +17,13 @@ class ChatController extends Controller
     public function getUsers()
     {
         $currentUser = Auth::user();
-        
+
         $users = User::where('id', '!=', $currentUser->id)
             ->get()
             ->map(function ($user) use ($currentUser) {
                 // Check if users are matched (you can customize this logic based on your matching system)
                 $isMatched = $this->checkIfUsersAreMatched($currentUser, $user);
-                
+
                 return [
                     'id' => $user->id,
                     'name' => $user->name,
@@ -32,10 +32,10 @@ class ChatController extends Controller
                     'is_matched' => $isMatched,
                 ];
             });
-            
+
         return response()->json($users);
     }
-    
+
     /**
      * Check if two users are matched (customize this logic based on your matching system)
      */
@@ -50,7 +50,9 @@ class ChatController extends Controller
      */
     public function getConversations()
     {
-        $conversations = Auth::user()->conversations()
+        $conversations = Conversation::whereHas('users', function ($query) {
+            $query->where('users.id', Auth::id());
+        })
             ->with(['users' => function ($query) {
                 $query->where('users.id', '!=', Auth::id());
             }, 'latestMessage'])
@@ -85,7 +87,9 @@ class ChatController extends Controller
         $authUser = Auth::user();
 
         // Check if a conversation already exists between these users
-        $conversation = $authUser->conversations()
+        $conversation = Conversation::whereHas('users', function ($query) use ($authUser) {
+            $query->where('users.id', $authUser->id);
+        })
             ->whereHas('users', function ($query) use ($userId) {
                 $query->where('users.id', $userId);
             })

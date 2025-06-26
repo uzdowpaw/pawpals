@@ -74,4 +74,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Message::class);
     }
+
+    /**
+     * Get the pet care reminders for the user.
+     */
+    public function petCareReminders(): HasMany
+    {
+        return $this->hasMany(PetCareReminder::class);
+    }
+
+    /**
+     * Get the pet care logs for the user.
+     */
+    public function petCareLogs(): HasMany
+    {
+        return $this->hasMany(PetCareLog::class);
+    }
 }

@@ -32,12 +32,12 @@ class AdminController extends Controller
         $activeDogs = Dog::count();
         $newUsers = User::where('created_at', '>=', Carbon::now()->subMonth())->count();
         $totalMatches = 0; // This would be calculated based on your matching system
-        
+
         $recentUsers = User::latest()->take(5)->get();
 
         return view('admin.dashboard', compact(
             'totalUsers',
-            'activeDogs', 
+            'activeDogs',
             'newUsers',
             'totalMatches',
             'recentUsers'
@@ -56,7 +56,7 @@ class AdminController extends Controller
             $search = $request->get('search');
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%");
             });
         }
 
@@ -210,7 +210,7 @@ class AdminController extends Controller
             $search = $request->get('search');
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('breed', 'like', "%{$search}%");
+                    ->orWhere('breed', 'like', "%{$search}%");
             });
         }
 

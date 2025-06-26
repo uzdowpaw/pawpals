@@ -14,16 +14,16 @@ class DogTinderController extends Controller
     public function index()
     {
         $user = Auth::user();
-        
+
         // Get dogs that the user hasn't interacted with yet
         $interactedDogIds = DogMatch::where('user_id', $user->id)->pluck('dog_id');
-        
+
         $dogs = Dog::with(['photos', 'user'])
             ->whereNotIn('id', $interactedDogIds)
             ->where('user_id', '!=', $user->id) // Don't show user's own dogs
             ->inRandomOrder()
             ->paginate(1); // Show one dog at a time
-        
+
         return view('user.dog-tinder.index', compact('dogs'));
     }
 
@@ -67,7 +67,7 @@ class DogTinderController extends Controller
                 $isMatch = true;
                 $matchedUser = User::find($dogOwnerId);
 
-                    $user->notify(new MatchNotification($matchedUser, $dog));
+                $user->notify(new MatchNotification($matchedUser, $dog));
                 $matchedUser->notify(new MatchNotification($user, $dog));
             }
         }
@@ -90,7 +90,7 @@ class DogTinderController extends Controller
     public function markNotificationAsRead($id)
     {
         $user = Auth::user();
-        $notification = $user->notifications()->where('id', $id)->firstOrFail();
+        $notification = $user->notifications->where('id', $id)->firstOrFail();
 
         $notification->markAsRead();
 

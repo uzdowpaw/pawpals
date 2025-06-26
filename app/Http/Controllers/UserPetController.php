@@ -16,7 +16,7 @@ class UserPetController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $pets = $user->dogs()->paginate(10);
+        $pets = Dog::where('user_id', $user->id)->paginate(10);
         return view('user.pets.index', compact('pets'));
     }
 

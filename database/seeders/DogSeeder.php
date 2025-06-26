@@ -12,6 +12,10 @@ class DogSeeder extends Seeder
      */
     public function run(): void
     {
-        Dog::factory(10)->create();
+        $users = \App\Models\User::where('role', 'user')->get();
+
+        foreach ($users as $user) {
+            Dog::factory(rand(1, 3))->create(['user_id' => $user->id]);
+        }
     }
 }

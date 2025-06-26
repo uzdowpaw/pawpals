@@ -38,4 +38,20 @@ class Dog extends Model
     {
         return $this->hasMany(Photo::class);
     }
+
+    /**
+     * Get the pet care reminders for the dog.
+     */
+    public function petCareReminders()
+    {
+        return $this->hasMany(PetCareReminder::class);
+    }
+
+    /**
+     * Get the pet care logs for the dog.
+     */
+    public function petCareLogs()
+    {
+        return $this->hasMany(PetCareLog::class);
+    }
 }
