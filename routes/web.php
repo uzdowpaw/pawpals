@@ -96,6 +96,13 @@ Route::middleware(['auth', 'user'])->prefix('user')->name('user.')->group(functi
     Route::prefix('pet-care')->name('pet-care.')->group(function () {
         Route::get('/', [App\Http\Controllers\PetCareController::class, 'index'])->name('index');
 
+        // General Reminder and Log Creation Routes
+        Route::get('/reminders/create', [App\Http\Controllers\PetCareController::class, 'createReminder'])->name('reminders.create');
+        Route::post('/reminders', [App\Http\Controllers\PetCareController::class, 'storeReminder'])->name('reminders.store');
+
+        Route::get('/logs/create', [App\Http\Controllers\PetCareController::class, 'createLog'])->name('logs.create');
+        Route::post('/logs', [App\Http\Controllers\PetCareController::class, 'storeLog'])->name('logs.store');
+
         // Pet-specific routes
         Route::get('/pets/{pet}/reminders', [App\Http\Controllers\PetCareController::class, 'petReminders'])->name('pet.reminders');
         Route::get('/pets/{pet}/reminders/create', [App\Http\Controllers\PetCareController::class, 'createReminder'])->name('pet.reminders.create');
