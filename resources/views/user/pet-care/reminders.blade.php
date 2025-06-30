@@ -126,7 +126,7 @@
 
                                 <div class="flex space-x-2 ml-4">
                                     @if(!$reminder->is_completed)
-                                    <form action="{{ route('pet-care.reminders.complete', $reminder) }}" method="POST" class="inline">
+                                    <form action="{{ route('user.pet-care.reminders.complete', $reminder) }}" method="POST" class="inline">
                                         @csrf
                                         @method('PATCH')
                                         <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
@@ -135,7 +135,7 @@
                                     </form>
                                     @endif
 
-                                    <form action="{{ route('pet-care.reminders.delete', $reminder) }}" method="POST" class="inline"
+                                    <form action="{{ route('user.pet-care.reminders.delete', $reminder) }}" method="POST" class="inline"
                                         onsubmit="return confirm('Are you sure you want to delete this reminder?')">
                                         @csrf
                                         @method('DELETE')

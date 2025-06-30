@@ -95,7 +95,7 @@
                                 class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm">
                                 Filter
                             </button>
-                            <a href="{{ route('pet-care.pet.logs', $pet) }}"
+                            <a href="{{ route('user.pet-care.pet.logs', $pet) }}"
                                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md text-sm ml-2">
                                 Clear
                             </a>
@@ -171,7 +171,7 @@
                                 </div>
 
                                 <div class="ml-4">
-                                    <form action="{{ route('pet-care.logs.destroy', $log) }}"
+                                    <form action="{{ route('user.pet-care.logs.delete', $log) }}"
                                         method="POST"
                                         onsubmit="return confirm('Are you sure you want to delete this log entry?')">
                                         @csrf
@@ -202,7 +202,7 @@
                         <p class="text-gray-600 dark:text-gray-400 mb-4">
                             Start tracking {{ $pet->name }}'s care activities by adding your first log entry.
                         </p>
-                        <a href="{{ route('pet-care.pet.logs.create', $pet) }}"
+                        <a href="{{ route('user.pet-care.pet.logs.create', $pet) }}"
                             class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium">
                             Add First Log Entry
                         </a>

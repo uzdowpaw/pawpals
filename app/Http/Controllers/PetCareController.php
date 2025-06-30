@@ -8,9 +8,11 @@ use App\Models\PetCareLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PetCareController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display the pet care dashboard.
      */
@@ -186,7 +188,7 @@ class PetCareController extends Controller
             'metadata' => !empty($metadata) ? $metadata : null,
         ]);
 
-        return redirect()->route('pet-care.pet.logs', $pet)
+        return redirect()->route('user.pet-care.pet.logs', $pet)
             ->with('success', 'Care log created successfully!');
     }
 

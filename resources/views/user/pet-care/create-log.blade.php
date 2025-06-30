@@ -20,7 +20,7 @@
                 <div class="p-6">
                     <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-6">Record Care Activity</h3>
 
-                    <form action="{{ route('pet-care.pet.logs.store', $pet) }}" method="POST" class="space-y-6">
+                    <form action="{{ route('user.pet-care.pet.logs.store', $pet) }}" method="POST" class="space-y-6">
                         @csrf
 
                         <!-- Title -->
@@ -132,7 +132,7 @@
 
                         <!-- Submit Buttons -->
                         <div class="flex items-center justify-end space-x-3 pt-6">
-                            <a href="{{ route('pet-care.pet.logs', $pet) }}"
+                            <a href="{{ route('user.pet-care.pet.logs', $pet) }}"
                                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md text-sm font-medium">
                                 Cancel
                             </a>

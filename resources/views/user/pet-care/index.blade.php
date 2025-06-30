@@ -15,14 +15,17 @@
             @endif
 
             <!-- Navigation Buttons -->
-            <div class="mb-6 flex justify-end space-x-4">
-                <a href="{{ route('user.pet-care.reminders.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-                    Add Reminder
-                </a>
-                <a href="{{ route('user.pet-care.logs.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
-                    Add Log Entry
-                </a>
-            </div>
+            @if($pets->count() > 0)
+                @php($firstPet = $pets->first())
+                <div class="mb-6 flex justify-end space-x-4">
+                    <a href="{{ route('user.pet-care.pet.reminders.create', $firstPet) }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                        Add Reminder
+                    </a>
+                    <a href="{{ route('user.pet-care.pet.logs.create', $firstPet) }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
+                        Add Log Entry
+                    </a>
+                </div>
+            @endif
 
             <!-- Overview Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -94,7 +97,7 @@
                                 @endif
                             </div>
                             <div class="flex space-x-2">
-                                <form action="{{ route('pet-care.reminders.complete', $reminder) }}" method="POST" class="inline">
+                                <form action="{{ route('user.pet-care.reminders.complete', $reminder) }}" method="POST" class="inline">
                                     @csrf
                                     @method('PATCH')
                                     <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
@@ -125,7 +128,7 @@
                                 @endif
                             </div>
                             <div class="flex space-x-2">
-                                <form action="{{ route('pet-care.reminders.complete', $reminder) }}" method="POST" class="inline">
+                                <form action="{{ route('user.pet-care.reminders.complete', $reminder) }}" method="POST" class="inline">
                                     @csrf
                                     @method('PATCH')
                                     <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
