@@ -1,6 +1,34 @@
 <x-admin-layout>
     <x-slot name="header">
         <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">User Dashboard</h1>
+
+@if(session('upcoming_reminders'))
+    <div id="reminder-popup" class="fixed inset-0 bg-gray-800 bg-opacity-75 z-50 h-screen">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-700 rounded-lg shadow-xl p-6 m-4 max-w-md w-full">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 text-center">Upcoming Reminders!</h2>
+            <p class="text-gray-700 dark:text-gray-300 mb-4 text-center">You have pet care reminders due in the next 7 days:</p>
+            <ul class="list-disc pl-5 mb-4 text-gray-700 dark:text-gray-300">
+                @foreach(session('upcoming_reminders') as $reminder)
+                    <li>{{ $reminder->name }} for {{ $reminder->dog->name }} on {{ \Carbon\Carbon::parse($reminder->reminder_date)->format('M d, Y') }}</li>
+                @endforeach
+            </ul>
+            <button id="close-popup" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Got it!</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const closeButton = document.getElementById('close-popup');
+            const popup = document.getElementById('reminder-popup');
+
+            if (closeButton && popup) {
+                closeButton.addEventListener('click', function() {
+                    popup.style.display = 'none';
+                });
+            }
+        });
+    </script>
+@endif
     </x-slot>
 
     <!-- User Dashboard Stats -->

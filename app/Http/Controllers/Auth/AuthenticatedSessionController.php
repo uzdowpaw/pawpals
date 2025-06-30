@@ -8,6 +8,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\PetCareReminder;
+use Carbon\Carbon;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -32,6 +34,15 @@ class AuthenticatedSessionController extends Controller
         if (auth()->user()->role === 'admin') {
             return redirect(route('admin.dashboard', absolute: false));
         } elseif (auth()->user()->role === 'user') {
+            $user = auth()->user();
+            $upcomingReminders = PetCareReminder::where('user_id', $user->id)
+                ->whereBetween('reminder_date', [Carbon::now(), Carbon::now()->addWeek()])
+                ->get();
+
+            \Illuminate\Support\Facades\Log::info('Upcoming Reminders: ' . $upcomingReminders->toJson());
+            if ($upcomingReminders->isNotEmpty()) {
+                $request->session()->flash('upcoming_reminders', $upcomingReminders);
+            }
             return redirect(route('user.dashboard', absolute: false));
         }
 
