@@ -15,16 +15,16 @@ class Photo extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'dog_id',
         'path',
-        'is_main',
+        'imageable_id',
+        'imageable_type',
     ];
 
     /**
-     * Get the dog that owns the photo.
+     * Get the parent imageable model (dog or user).
      */
-    public function dog()
+    public function imageable()
     {
-        return $this->belongsTo(Dog::class);
+        return $this->morphTo();
     }
 }

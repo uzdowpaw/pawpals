@@ -50,6 +50,7 @@
                             <option value="">Select a role</option>
                             <option value="user" {{ old('role') === 'user' ? 'selected' : '' }}>User</option>
                             <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="shelter" {{ old('role') === 'shelter' ? 'selected' : '' }}>Shelter</option>
                         </select>
                         @error('role')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>

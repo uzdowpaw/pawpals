@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dogs', function (Blueprint $table) {
+        Schema::create('shelter_dogs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('shelter_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string('name');
-            $table->string('breed');
             $table->integer('age');
-            $table->enum('size', ['small', 'medium', 'large']);
+            $table->string('sex');
+            $table->foreignId('breed_id')->constrained('breeds');
             $table->text('description');
-            $table->enum('status', ['available', 'adopted', 'pending'])->default('available');
+            $table->foreignId('shelter_id')->constrained('users');
+            $table->string('status')->default('available'); // e.g., available, adopted
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dogs');
+        Schema::dropIfExists('shelter_dogs');
     }
 };

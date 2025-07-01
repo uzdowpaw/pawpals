@@ -50,6 +50,7 @@
                                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white @error('role') border-red-500 @enderror">
                             <option value="user" {{ old('role', $user->role) === 'user' ? 'selected' : '' }}>User</option>
                             <option value="admin" {{ old('role', $user->role) === 'admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="shelter" {{ old('role', $user->role) === 'shelter' ? 'selected' : '' }}>Shelter</option>
                         </select>
                         @error('role')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>

@@ -8,6 +8,8 @@ use App\Models\PetCareLog;
 use App\Policies\DogPolicy;
 use App\Policies\PetCareReminderPolicy;
 use App\Policies\PetCareLogPolicy;
+use App\Models\ShelterDog;
+use App\Policies\ShelterDogPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -21,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
         Dog::class => DogPolicy::class,
         PetCareReminder::class => PetCareReminderPolicy::class,
         PetCareLog::class => PetCareLogPolicy::class,
+        ShelterDog::class => ShelterDogPolicy::class,
     ];
 
     /**

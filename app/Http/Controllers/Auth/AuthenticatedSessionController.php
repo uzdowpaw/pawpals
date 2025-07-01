@@ -33,6 +33,8 @@ class AuthenticatedSessionController extends Controller
         // Redirect admin users to admin dashboard
         if (auth()->user()->role === 'admin') {
             return redirect(route('admin.dashboard', absolute: false));
+        } elseif (auth()->user()->role === 'shelter') {
+            return redirect(route('shelter.dashboard', absolute: false));
         } elseif (auth()->user()->role === 'user') {
             $user = auth()->user();
             $upcomingReminders = PetCareReminder::where('user_id', $user->id)

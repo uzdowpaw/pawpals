@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Dog;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Storage;
+
 class DogFactory extends Factory
 {
     /**
@@ -22,12 +23,13 @@ class DogFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => \App\Models\User::factory(),
+            'shelter_id' => \App\Models\User::factory()->create(['role' => 'shelter'])->id,
             'name' => $this->faker->randomElement(['Buddy', 'Max', 'Charlie', 'Bella', 'Lucy', 'Daisy', 'Molly', 'Bailey', 'Maggie', 'Sophie']),
             'breed' => $this->faker->randomElement(['Labrador Retriever', 'German Shepherd', 'Golden Retriever', 'French Bulldog', 'Bulldog', 'Poodle', 'Beagle', 'Rottweiler', 'Siberian Husky', 'Dachshund']),
             'age' => $this->faker->numberBetween(1, 15),
             'size' => $this->faker->randomElement(['small', 'medium', 'large']),
-            'behavior_description' => $this->faker->sentence(),
+            'description' => $this->faker->sentence(),
+
         ];
     }
 

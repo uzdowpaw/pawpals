@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dogs', function (Blueprint $table) {
+        Schema::create('adoption_applications', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('dog_id')->constrained()->onDelete('cascade');
             $table->foreignId('shelter_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->string('name');
-            $table->string('breed');
-            $table->integer('age');
-            $table->enum('size', ['small', 'medium', 'large']);
-            $table->text('description');
-            $table->enum('status', ['available', 'adopted', 'pending'])->default('available');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->text('message')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dogs');
+        Schema::dropIfExists('adoption_applications');
     }
 };

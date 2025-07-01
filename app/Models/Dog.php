@@ -15,20 +15,30 @@ class Dog extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'shelter_id',
         'user_id',
         'name',
         'breed',
         'age',
         'size',
-        'behavior_description',
+        'description',
+        'status',
     ];
 
     /**
      * Get the user that owns the dog.
      */
-    public function user()
+    public function shelter()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'shelter_id');
+    }
+
+    /**
+     * Get the user that adopted the dog.
+     */
+    public function adopter()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**
@@ -36,7 +46,7 @@ class Dog extends Model
      */
     public function photos()
     {
-        return $this->hasMany(Photo::class);
+        return $this->morphMany(Photo::class, 'imageable');
     }
 
     /**
@@ -53,5 +63,10 @@ class Dog extends Model
     public function petCareLogs()
     {
         return $this->hasMany(PetCareLog::class);
+    }
+
+    public function mainPhoto()
+    {
+        return $this->morphOne(Photo::class, 'imageable')->where('is_main', true);
     }
 }

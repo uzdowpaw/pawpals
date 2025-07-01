@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPetController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ShelterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,8 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     if (auth()->user()->role === 'admin') {
         return redirect('/admin/dashboard');
+    } elseif (auth()->user()->role === 'shelter') {
+        return redirect('/shelter/dashboard');
     } else {
         return redirect('/user/dashboard');
     }
@@ -76,9 +79,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/reports', [AdminController::class, 'reports'])->name('reports');
 });
 
+Route::get('/dogs', [DogAdoptionController::class, 'index'])->name('dogs.index');
+Route::get('/dogs/{dog}', [DogAdoptionController::class, 'show'])->name('dogs.show');
+Route::post('/dogs/{dog}/adopt', [DogAdoptionController::class, 'adopt'])->name('dogs.adopt')->middleware('auth');
+
 // User routes
 Route::middleware(['auth', 'user'])->prefix('user')->name('user.')->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+    Route::get('/my-applications', [UserApplicationController::class, 'index'])->name('applications.index');
 
     // Pets
     Route::resource('pets', UserPetController::class)->except(['show']);
@@ -86,6 +94,7 @@ Route::middleware(['auth', 'user'])->prefix('user')->name('user.')->group(functi
 
     // Dog Tinder
     Route::get('/browse-dogs', [App\Http\Controllers\DogTinderController::class, 'index'])->name('dog-tinder.index');
+    Route::get('/adoption-gallery', [ShelterController::class, 'adoptionGallery'])->name('adoption-gallery');
     Route::post('/dog-tinder/swipe', [App\Http\Controllers\DogTinderController::class, 'swipe'])->name('dog-tinder.swipe');
     Route::get('/dog-tinder/notifications', [App\Http\Controllers\DogTinderController::class, 'notifications'])->name('dog-tinder.notifications');
     Route::post('/dog-tinder/notifications/{id}/read', [App\Http\Controllers\DogTinderController::class, 'markNotificationAsRead'])->name('dog-tinder.notifications.read');
@@ -119,6 +128,25 @@ Route::middleware(['auth', 'user'])->prefix('user')->name('user.')->group(functi
         // Log actions
         Route::delete('/logs/{log}', [App\Http\Controllers\PetCareController::class, 'deleteLog'])->name('logs.delete');
     });
+});
+
+// Shelter routes
+Route::middleware(['auth', 'shelter'])->prefix('shelter')->name('shelter.')->group(function () {
+    Route::get('/dashboard', [ShelterController::class, 'dashboard'])->name('dashboard');
+
+    // Shelter dog management
+    Route::get('/dogs', [ShelterController::class, 'indexDogs'])->name('dogs.index');
+    Route::get('/dogs/create', [ShelterController::class, 'createDog'])->name('dogs.create');
+    Route::post('/dogs', [ShelterController::class, 'storeDog'])->name('dogs.store');
+    Route::get('/dogs/{dog}/edit', [ShelterController::class, 'editDog'])->name('dogs.edit');
+    Route::put('/dogs/{dog}', [ShelterController::class, 'updateDog'])->name('dogs.update');
+    Route::delete('/dogs/{dog}', [ShelterController::class, 'destroyDog'])->name('dogs.destroy');
+    Route::patch('/dogs/{dog}/toggle-active', [ShelterController::class, 'toggleActive'])->name('dogs.toggle-active');
+
+    // Shelter application management
+    Route::get('/applications', [ShelterController::class, 'indexApplications'])->name('applications.index');
+    Route::patch('/applications/{application}', [ShelterController::class, 'updateApplication'])->name('applications.update');
+    Route::get('/history', [ShelterController::class, 'applicationHistory'])->name('applications.history');
 });
 
 require __DIR__ . '/auth.php';

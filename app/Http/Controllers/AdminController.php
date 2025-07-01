@@ -87,7 +87,7 @@ class AdminController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'in:user,admin'],
+            'role' => ['required', 'in:user,admin,shelter'],
             'email_verified' => ['boolean'],
             'send_welcome_email' => ['boolean'],
         ]);
@@ -134,7 +134,7 @@ class AdminController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
-            'role' => ['required', 'in:user,admin'],
+            'role' => ['required', 'in:user,admin,shelter'],
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
         ]);
 
