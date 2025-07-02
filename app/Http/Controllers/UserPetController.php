@@ -40,14 +40,19 @@ class UserPetController extends Controller
             'age' => 'required|integer|min:0',
             'size' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'behavior_description' => 'nullable|string',
         ]);
 
-        $pet = Auth::user()->dogs()->create($request->except(['photos', 'main_photo']));
+        // Create pet with null shelter_id since this is a user's pet, not a shelter's
+        $data = $request->except(['photos', 'main_photo', 'behavior_description']);
+        $data['shelter_id'] = null; // Explicitly set shelter_id to null
+        $data['description'] = $request->behavior_description ?? $request->description ?? ''; // Use behavior_description if available, fallback to description or empty string
+        $pet = Auth::user()->dogs()->create($data);
 
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $index => $photo) {
                 $path = $photo->store('photos', 'public');
-                $isMain = ($index == $request->input('main_photo'));
+                $isMain = ($index == $request->input('main_photo', 0)); // Default to first photo if not specified
                 $pet->photos()->create([
                     'path' => $path,
                     'is_main' => $isMain,

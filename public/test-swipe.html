@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Dog Tinder Swipe</title>
+    <meta name="csrf-token" content="test-token">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        #results {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            min-height: 200px;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Dog Tinder Swipe Functionality</h1>
+    
+    <div class="card">
+        <h2>Test Form Submission</h2>
+        <form id="swipeForm">
+            <div>
+                <label for="dogId">Dog ID:</label>
+                <input type="number" id="dogId" name="dog_id" value="7" required>
+            </div>
+            <div style="margin-top: 10px;">
+                <label>Action:</label>
+                <label><input type="radio" name="action" value="like" checked> Like</label>
+                <label><input type="radio" name="action" value="dislike"> Dislike</label>
+            </div>
+            <div style="margin-top: 20px;">
+                <button type="button" id="submitBtn">Submit</button>
+                <button type="button" id="clearBtn">Clear Results</button>
+            </div>
+        </form>
+    </div>
+    
+    <div id="results">
+        <h3>Results:</h3>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const submitBtn = document.getElementById('submitBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const output = document.getElementById('output');
+            const form = document.getElementById('swipeForm');
+            
+            // Log function
+            function log(message, isError = false) {
+                const div = document.createElement('div');
+                div.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+                if (isError) {
+                    div.classList.add('error');
+                } else {
+                    div.classList.add('success');
+                }
+                output.appendChild(div);
+            }
+            
+            // Clear results
+            clearBtn.addEventListener('click', function() {
+                output.innerHTML = '';
+            });
+            
+            // Submit form
+            submitBtn.addEventListener('click', function() {
+                const formData = new FormData(form);
+                const dogId = formData.get('dog_id');
+                const action = formData.get('action');
+                
+                log(`Submitting: dog_id=${dogId}, action=${action}`);
+                
+                // Add CSRF token
+                formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+                
+                // Use fetch to submit the form
+                fetch('/user/dog-tinder/swipe', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => {
+                    log(`Response status: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    log(`Response data: ${JSON.stringify(data)}`);
+                    if (data.success) {
+                        log(`Success! ${action === 'like' ? 'Liked' : 'Disliked'} dog ${dogId}`);
+                        if (data.is_match) {
+                            log(`It's a match with ${data.matched_user}!`);
+                        }
+                    } else {
+                        log(`Error: ${data.error || 'Unknown error'}`, true);
+                    }
+                })
+                .catch(error => {
+                    log(`Fetch error: ${error.message}`, true);
+                });
+            });
+            
+            log('Test page loaded successfully');
+        });
+    </script>
+</body>
+</html>

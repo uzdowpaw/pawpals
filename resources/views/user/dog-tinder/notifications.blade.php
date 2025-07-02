@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.user')
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
@@ -68,7 +68,7 @@
             <div class="text-center py-12">
                 <div class="text-6xl mb-4">📭</div>
                 <h2 class="text-2xl font-bold text-gray-900 mb-2">No notifications yet</h2>
-                <p class="text-gray-600 mb-6">Start browsing dogs to get notifications about matches!</p>
+                <p class="text-gray-700 mb-6">Start browsing dogs to get notifications about matches!</p>
                 <a href="{{ route('user.dog-tinder.index') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors">
                     Start Browsing
                 </a>

@@ -29,6 +29,13 @@ class DogTinderController extends Controller
 
     public function swipe(Request $request)
     {
+        // Log the incoming request for debugging
+        \Log::info('Dog Tinder Swipe Request:', [
+            'all' => $request->all(),
+            'dog_id' => $request->dog_id,
+            'action' => $request->action
+        ]);
+        
         $request->validate([
             'dog_id' => 'required|exists:dogs,id',
             'action' => 'required|in:like,dislike'
@@ -48,11 +55,13 @@ class DogTinderController extends Controller
         }
 
         // Create the interaction record
-        DogMatch::create([
+        $match = DogMatch::create([
             'user_id' => $user->id,
             'dog_id' => $dogId,
             'interaction_type' => $action
         ]);
+
+        \Log::info('Dog Match Created:', ['match' => $match]);
 
         $isMatch = false;
         $matchedUser = null;
@@ -62,10 +71,20 @@ class DogTinderController extends Controller
             $dog = Dog::find($dogId);
             $dogOwnerId = $dog->user_id;
 
+            \Log::info('Checking for mutual match:', [
+                'user_id' => $user->id,
+                'dog_owner_id' => $dogOwnerId
+            ]);
+
             // Check if there's a mutual match
             if (DogMatch::checkMutualMatch($user->id, $dogOwnerId)) {
                 $isMatch = true;
                 $matchedUser = User::find($dogOwnerId);
+
+                \Log::info('Match found!', [
+                    'matched_user' => $matchedUser->name,
+                    'dog' => $dog->name
+                ]);
 
                 $user->notify(new MatchNotification($matchedUser, $dog));
                 $matchedUser->notify(new MatchNotification($user, $dog));

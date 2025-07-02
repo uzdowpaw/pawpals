@@ -1,7 +1,7 @@
-<x-admin-layout>
+<x-user-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            <h2 class="font-semibold text-xl text-gray-900 dark:text-gray-200 leading-tight">
                 {{ __('Add Log Entry for') }} {{ $pet->name }}
             </h2>
         </div>
@@ -154,4 +154,4 @@
             document.getElementById('description').value = description;
         }
     </script>
-</x-admin-layout>
+</x-user-layout>

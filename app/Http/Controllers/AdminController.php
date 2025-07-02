@@ -254,6 +254,8 @@ class AdminController extends Controller
             'age' => $request->age,
             'size' => $request->size,
             'behavior_description' => $request->behavior_description,
+            'shelter_id' => null, // Explicitly set shelter_id to null
+            'description' => $request->behavior_description ?? '', // Use behavior_description as description or empty string
         ]);
 
         if ($request->hasFile('photos')) {

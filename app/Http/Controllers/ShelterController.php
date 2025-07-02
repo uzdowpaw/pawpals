@@ -9,6 +9,7 @@ use App\Models\AdoptionApplication;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ShelterDog;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Log;
 
 class ShelterController extends Controller
 {
@@ -75,8 +76,8 @@ class ShelterController extends Controller
 
     public function adoptionGallery()
     {
-        $activeDogs = ShelterDog::where('active', true)->get();
-        return view('shelter.adoption-gallery', ['dogs' => $activeDogs]);
+        $activeDogs = ShelterDog::where('active', true)->with('breed', 'mainPhoto')->get();
+        return view('user.adoptions.adoption-gallery', ['dogs' => $activeDogs]);
     }
 
     public function applicationHistory()
@@ -115,6 +116,7 @@ class ShelterController extends Controller
 
         if ($request->hasFile('main_photo')) {
             $dogData['main_photo_path'] = $request->file('main_photo')->store('dogs', 'public');
+            Log::info('Main photo path: ' . $dogData['main_photo_path']);
         }
 
         $dog = Dog::create($dogData);
@@ -122,6 +124,7 @@ class ShelterController extends Controller
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $photoFile) {
                 $path = $photoFile->store('dogs', 'public');
+                Log::info('Additional photo path: ' . $path);
                 $photo = new \App\Models\Photo(['path' => $path]);
                 $dog->photos()->save($photo);
             }

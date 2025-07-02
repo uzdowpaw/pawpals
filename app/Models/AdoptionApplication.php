@@ -15,6 +15,7 @@ class AdoptionApplication extends Model
         'shelter_id',
         'status',
         'message',
+        'dog_type',  // Added to distinguish between Dog and ShelterDog
     ];
 
     public function user()
@@ -24,6 +25,12 @@ class AdoptionApplication extends Model
 
     public function dog()
     {
+        // If dog_type is set to 'shelter_dog', return ShelterDog model
+        if ($this->dog_type === 'shelter_dog') {
+            return $this->belongsTo(ShelterDog::class, 'dog_id');
+        }
+        
+        // Default to Dog model
         return $this->belongsTo(Dog::class);
     }
 

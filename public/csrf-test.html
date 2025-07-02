@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSRF Test Form</title>
+    <meta name="csrf-token" content="">
+</head>
+<body>
+    <h1>CSRF Test Form</h1>
+    
+    <form id="testForm" method="POST" action="/user/dog-tinder/swipe">
+        <input type="hidden" name="_token" value="">
+        <input type="hidden" name="dog_id" value="1">
+        <input type="hidden" name="action" value="like">
+        <button type="submit">Submit Form</button>
+    </form>
+    
+    <h2>JavaScript Test</h2>
+    <button onclick="testJsSubmit()">Test JavaScript Submit</button>
+    
+    <div id="result"></div>
+    
+    <script>
+    function testJsSubmit() {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/user/dog-tinder/swipe';
+        form.style.display = 'none';
+        
+        // Add CSRF token
+        const csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = '_token';
+        csrfToken.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        form.appendChild(csrfToken);
+        
+        // Add dog_id
+        const dogIdInput = document.createElement('input');
+        dogIdInput.type = 'hidden';
+        dogIdInput.name = 'dog_id';
+        dogIdInput.value = 1;
+        form.appendChild(dogIdInput);
+        
+        // Add action
+        const actionInput = document.createElement('input');
+        actionInput.type = 'hidden';
+        actionInput.name = 'action';
+        actionInput.value = 'like';
+        form.appendChild(actionInput);
+        
+        // Add form to document
+        document.body.appendChild(form);
+        
+        // Log form data
+        console.log('Form data:', new FormData(form));
+        for (let pair of new FormData(form).entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+        
+        // Submit form
+        form.submit();
+    }
+    </script>
+</body>
+</html>

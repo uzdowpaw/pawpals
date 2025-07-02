@@ -18,6 +18,7 @@ class Photo extends Model
         'path',
         'imageable_id',
         'imageable_type',
+        'is_main',
     ];
 
     /**

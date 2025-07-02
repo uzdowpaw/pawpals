@@ -1,4 +1,4 @@
-<x-admin-layout>
+<x-user-layout>
     <x-slot name="header">
         <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">Add New Pet</h1>
     </x-slot>
@@ -58,7 +58,10 @@
 
                             <div class="col-span-full">
                                 <label for="photos" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Pet Photos</label>
-                                <input type="file" name="photos[]" id="photos" class="mt-1 block w-full text-gray-900 dark:text-gray-100" multiple accept="image/*">
+                                <input type="file" name="photos[]" id="photos" class="mt-1 block w-full text-gray-900 dark:text-gray-100" multiple accept="image/*" onchange="handleFileSelect(this)">
+                                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">The first photo will be set as the main photo by default.</p>
+                                <div id="photo-preview" class="mt-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+                                <input type="hidden" name="main_photo" id="main_photo" value="0">
                                 @error('photos')
                                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -81,4 +84,55 @@
             </div>
         </div>
     </div>
-</x-admin-layout>
+    <script>
+        function handleFileSelect(input) {
+            const previewContainer = document.getElementById('photo-preview');
+            previewContainer.innerHTML = ''; // Clear previous previews
+            
+            if (input.files && input.files.length > 0) {
+                for (let i = 0; i < input.files.length; i++) {
+                    const file = input.files[i];
+                    if (!file.type.startsWith('image/')) continue;
+                    
+                    const reader = new FileReader();
+                    const previewDiv = document.createElement('div');
+                    previewDiv.className = 'relative';
+                    
+                    reader.onload = function(e) {
+                        previewDiv.innerHTML = `
+                            <div class="relative group">
+                                <img src="${e.target.result}" alt="Preview" class="w-full h-32 object-cover rounded-md">
+                                <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-md">
+                                    <button type="button" class="text-white bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-xs" onclick="setMainPhoto(${i})">Set as Main</button>
+                                </div>
+                                ${i == 0 ? '<span class="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-bl-md">Main</span>' : ''}
+                            </div>
+                        `;
+                    };
+                    
+                    reader.readAsDataURL(file);
+                    previewContainer.appendChild(previewDiv);
+                }
+            }
+        }
+        
+        function setMainPhoto(index) {
+            document.getElementById('main_photo').value = index;
+            
+            // Update UI to show which photo is main
+            const previews = document.querySelectorAll('#photo-preview > div');
+            previews.forEach((preview, i) => {
+                const mainLabel = preview.querySelector('span');
+                if (mainLabel) mainLabel.remove();
+                
+                if (i === index) {
+                    const img = preview.querySelector('img');
+                    const label = document.createElement('span');
+                    label.className = 'absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-bl-md';
+                    label.textContent = 'Main';
+                    preview.querySelector('.relative').appendChild(label);
+                }
+            });
+        }
+    </script>
+</x-user-layout>

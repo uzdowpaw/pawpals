@@ -1,6 +1,6 @@
-<x-admin-layout>
+<x-user-layout>
     <x-slot name="header">
-        <h1 class="text-xl font-semibold text-white dark:text-white">My Pets</h1>
+        <h1 class="text-xl font-semibold text-gray-800 dark:text-white">My Pets</h1>
     </x-slot>
 
     <div class="py-12">
@@ -85,4 +85,4 @@
             </div>
         </div>
     </div>
-</x-admin-layout>
+</x-user-layout>

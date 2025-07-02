@@ -1,6 +1,6 @@
-<x-admin-layout>
+<x-user-layout>
     <x-slot name="header">
-        <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">Edit Pet: {{ $pet->name }}</h1>
+        <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">Edit Pet: {{ $pet->name }}</h1>
     </x-slot>
 
     <div class="py-12">
@@ -109,4 +109,4 @@
             </div>
         </div>
     </div>
-</x-admin-layout>
+</x-user-layout>

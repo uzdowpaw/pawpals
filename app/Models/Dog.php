@@ -69,4 +69,12 @@ class Dog extends Model
     {
         return $this->morphOne(Photo::class, 'imageable')->where('is_main', true);
     }
+
+    /**
+     * Get the user that owns the dog.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

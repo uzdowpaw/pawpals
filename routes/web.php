@@ -6,7 +6,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPetController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ShelterController;
+use App\Http\Controllers\DogTinderController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\File;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,27 +81,35 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/reports', [AdminController::class, 'reports'])->name('reports');
 });
 
-Route::get('/dogs', [DogAdoptionController::class, 'index'])->name('dogs.index');
-Route::get('/dogs/{dog}', [DogAdoptionController::class, 'show'])->name('dogs.show');
-Route::post('/dogs/{dog}/adopt', [DogAdoptionController::class, 'adopt'])->name('dogs.adopt')->middleware('auth');
+// Original dog adoption routes (keep these for backward compatibility)
+// Commented out until DogAdoptionController is implemented
+// Route::get('/dogs', [DogAdoptionController::class, 'index'])->name('dogs.index');
+// Route::get('/dogs/{dog}', [DogAdoptionController::class, 'show'])->name('dogs.show');
+// Route::post('/dogs/{dog}/adopt', [DogAdoptionController::class, 'adopt'])->name('dogs.adopt')->middleware('auth');
+
+// New shelter dog adoption routes
+// Commented out until ShelterDogAdoptionController is implemented
+// Route::get('/shelter-dogs', [ShelterDogAdoptionController::class, 'index'])->name('shelter-dogs.index');
+// Route::get('/shelter-dogs/{shelterDog}', [ShelterDogAdoptionController::class, 'show'])->name('shelter-dogs.show');
+// Route::post('/shelter-dogs/{shelterDog}/adopt', [ShelterDogAdoptionController::class, 'adopt'])->name('shelter-dogs.adopt')->middleware('auth');
 
 // User routes
 Route::middleware(['auth', 'user'])->prefix('user')->name('user.')->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
-    Route::get('/my-applications', [UserApplicationController::class, 'index'])->name('applications.index');
+    Route::get('/my-applications', [App\Http\Controllers\UserApplicationController::class, 'index'])->name('applications.index');
 
     // Pets
     Route::resource('pets', UserPetController::class)->except(['show']);
     Route::delete('pets/photos/{photo}', [UserPetController::class, 'destroyPhoto'])->name('pets.photos.destroy');
 
     // Dog Tinder
-    Route::get('/browse-dogs', [App\Http\Controllers\DogTinderController::class, 'index'])->name('dog-tinder.index');
-    Route::get('/adoption-gallery', [ShelterController::class, 'adoptionGallery'])->name('adoption-gallery');
-    Route::post('/dog-tinder/swipe', [App\Http\Controllers\DogTinderController::class, 'swipe'])->name('dog-tinder.swipe');
-    Route::get('/dog-tinder/notifications', [App\Http\Controllers\DogTinderController::class, 'notifications'])->name('dog-tinder.notifications');
-    Route::post('/dog-tinder/notifications/{id}/read', [App\Http\Controllers\DogTinderController::class, 'markNotificationAsRead'])->name('dog-tinder.notifications.read');
+    Route::get('/browse-dogs', [DogTinderController::class, 'index'])->name('dog-tinder.index');
+    Route::get('/adoptions/adoption-gallery', [ShelterController::class, 'adoptionGallery'])->name('adoption-gallery');
+    Route::post('/dog-tinder/swipe', [DogTinderController::class, 'swipe'])->name('dog-tinder.swipe');
+    Route::get('/dog-tinder/notifications', [DogTinderController::class, 'notifications'])->name('dog-tinder.notifications');
+    Route::post('/dog-tinder/notifications/{id}/read', [DogTinderController::class, 'markNotificationAsRead'])->name('dog-tinder.notifications.read');
 
-    Route::get('/notifications/latest', [App\Http\Controllers\DogTinderController::class, 'latestNotifications'])->name('notifications.latest');
+    Route::get('/notifications/latest', [DogTinderController::class, 'latestNotifications'])->name('notifications.latest');
 
     // Pet Care Routes
     Route::prefix('pet-care')->name('pet-care.')->group(function () {
@@ -148,5 +158,14 @@ Route::middleware(['auth', 'shelter'])->prefix('shelter')->name('shelter.')->gro
     Route::patch('/applications/{application}', [ShelterController::class, 'updateApplication'])->name('applications.update');
     Route::get('/history', [ShelterController::class, 'applicationHistory'])->name('applications.history');
 });
+
+// Route to serve images from storage/app/public
+Route::get('/storage/{filename}', function ($filename) {
+    $path = storage_path('app/public/' . $filename);
+    if (!File::exists($path)) {
+        abort(404);
+    }
+    return response()->file($path);
+})->where('filename', '.*');
 
 require __DIR__ . '/auth.php';

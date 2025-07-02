@@ -1,6 +1,6 @@
-<x-admin-layout>
+<x-user-layout>
     <x-slot name="header">
-        <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">User Dashboard</h1>
+        <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">User Dashboard</h1>
 
         @if(session('upcoming_reminders'))
         <div id="reminder-popup" class="fixed inset-0 bg-gray-800 bg-opacity-75 z-50 h-screen">
@@ -151,4 +151,4 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
         </svg>
     </div>
-</x-admin-layout>
+</x-user-layout>
