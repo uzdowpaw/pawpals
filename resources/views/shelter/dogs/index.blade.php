@@ -28,7 +28,6 @@
                     <th class="py-3 px-6 text-center">Age</th>
                     <th class="py-3 px-6 text-center">Sex</th>
                     <th class="py-3 px-6 text-center">Status</th>
-                    <th class="py-3 px-6 text-center">Active</th>
                     <th class="py-3 px-6 text-center">Actions</th>
                 </tr>
             </thead>
@@ -47,15 +46,6 @@
                     <td class="py-3 px-6 text-center">{{ $dog->age }}</td>
                     <td class="py-3 px-6 text-center">{{ $dog->sex }}</td>
                     <td class="py-3 px-6 text-center">{{ $dog->status }}</td>
-                    <td class="py-3 px-6 text-center">
-                        <form action="{{ route('shelter.dogs.toggle-active', $dog->id) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <button type="submit" class="btn {{ $dog->active ? 'btn-success' : 'btn-secondary' }}">
-                                {{ $dog->active ? 'Active' : 'Inactive' }}
-                            </button>
-                        </form>
-                    </td>
                     <td class="py-3 px-6 text-center">
                         <a href="{{ route('shelter.dogs.edit', $dog->id) }}" class="bg-blue-500 text-white px-2 py-1 rounded">Edit</a>
                         <form action="{{ route('shelter.dogs.destroy', $dog->id) }}" method="POST" class="inline-block">

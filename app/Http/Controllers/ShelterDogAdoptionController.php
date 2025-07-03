@@ -14,7 +14,7 @@ class ShelterDogAdoptionController extends Controller
         $shelterDog->load('photos', 'shelter', 'breed');
         return view('shelter-dogs.show', ['dog' => $shelterDog]);
     }
-    
+
     public function adopt(Request $request, ShelterDog $shelterDog)
     {
         $application = AdoptionApplication::create([
@@ -33,9 +33,8 @@ class ShelterDogAdoptionController extends Controller
     public function index()
     {
         $dogs = ShelterDog::where('status', 'available')
-                          ->where('active', true)
-                          ->with('breed', 'shelter')
-                          ->get();
+            ->with('breed', 'shelter')
+            ->get();
         return view('shelter-dogs.index', ['dogs' => $dogs]);
     }
 }

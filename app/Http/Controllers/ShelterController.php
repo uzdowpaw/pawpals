@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ShelterDog as Dog;
+use App\Models\ShelterDog;
 use App\Models\Breed;
 use App\Models\AdoptionApplication;
 use Illuminate\Support\Facades\Auth;
-use App\Models\ShelterDog;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log;
 
@@ -16,11 +15,11 @@ class ShelterController extends Controller
     use AuthorizesRequests;
     public function dashboard()
     {
-        $totalDogs = Dog::where('shelter_id', Auth::id())->count();
-        $availableDogs = Dog::where('shelter_id', Auth::id())
+        $totalDogs = ShelterDog::where('shelter_id', Auth::id())->count();
+        $availableDogs = ShelterDog::where('shelter_id', Auth::id())
             ->where('status', 'available')
             ->count();
-        $adoptedDogs = Dog::where('shelter_id', Auth::id())
+        $adoptedDogs = ShelterDog::where('shelter_id', Auth::id())
             ->where('status', 'adopted')
             ->count();
         $pendingApplications = AdoptionApplication::where('shelter_id', Auth::id())
@@ -68,16 +67,14 @@ class ShelterController extends Controller
         return redirect()->route('shelter.applications.index')->with('success', 'Application status updated successfully.');
     }
 
-    public function toggleActive(ShelterDog $dog)
-    {
-        $dog->update(['active' => !$dog->active]);
-        return back();
-    }
+    // Removed toggleActive method as active column is no longer used
 
     public function adoptionGallery()
     {
-        $activeDogs = ShelterDog::where('active', true)->with('breed', 'mainPhoto')->get();
-        return view('user.adoptions.adoption-gallery', ['dogs' => $activeDogs]);
+        $availableDogs = ShelterDog::where('status', 'available')
+            ->with('breed', 'shelter', 'photos')
+            ->get();
+        return view('user.adoptions.adoption-gallery', ['dogs' => $availableDogs]);
     }
 
     public function applicationHistory()
@@ -88,7 +85,7 @@ class ShelterController extends Controller
 
     public function indexDogs()
     {
-        $dogs = Dog::where('shelter_id', Auth::id())->with('breed')->get();
+        $dogs = ShelterDog::where('shelter_id', Auth::id())->with('breed')->get();
         return view('shelter.dogs.index', compact('dogs'));
     }
 
@@ -113,13 +110,14 @@ class ShelterController extends Controller
 
         $dogData = $request->only(['name', 'breed_id', 'age', 'sex', 'description']);
         $dogData['shelter_id'] = Auth::id();
+        $dogData['status'] = 'available';
 
         if ($request->hasFile('main_photo')) {
             $dogData['main_photo_path'] = $request->file('main_photo')->store('dogs', 'public');
             Log::info('Main photo path: ' . $dogData['main_photo_path']);
         }
 
-        $dog = Dog::create($dogData);
+        $dog = ShelterDog::create($dogData);
 
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $photoFile) {
@@ -133,14 +131,14 @@ class ShelterController extends Controller
         return redirect()->route('shelter.dogs.index')->with('success', 'Dog added successfully.');
     }
 
-    public function editDog(Dog $dog)
+    public function editDog(ShelterDog $dog)
     {
         $this->authorize('update', $dog);
         $breeds = Breed::all();
         return view('shelter.dogs.edit', compact('dog', 'breeds'));
     }
 
-    public function updateDog(Request $request, Dog $dog)
+    public function updateDog(Request $request, ShelterDog $dog)
     {
         $this->authorize('update', $dog);
 
@@ -184,7 +182,7 @@ class ShelterController extends Controller
         return redirect()->route('shelter.dogs.index')->with('success', 'Dog updated successfully.');
     }
 
-    public function destroyDog(Dog $dog)
+    public function destroyDog(ShelterDog $dog)
     {
         $this->authorize('delete', $dog);
 

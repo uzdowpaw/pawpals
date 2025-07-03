@@ -1,0 +1,51 @@
+/* Dog Tinder Animation Styles */
+
+/* Base card styling */
+.dog-card {
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+    position: relative;
+    z-index: 1;
+}
+
+/* Swipe right animation (like) */
+.swipe-right {
+    transform: translateX(150%) rotate(20deg);
+    opacity: 0;
+}
+
+/* Swipe left animation (dislike) */
+.swipe-left {
+    transform: translateX(-150%) rotate(-20deg);
+    opacity: 0;
+}
+
+/* Next card animation */
+.next-card {
+    animation: slideUp 0.5s ease-out forwards;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Button hover effects */
+.like-btn, .dislike-btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.like-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dislike-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}

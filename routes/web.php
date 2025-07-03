@@ -87,11 +87,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 // Route::get('/dogs/{dog}', [DogAdoptionController::class, 'show'])->name('dogs.show');
 // Route::post('/dogs/{dog}/adopt', [DogAdoptionController::class, 'adopt'])->name('dogs.adopt')->middleware('auth');
 
-// New shelter dog adoption routes
-// Commented out until ShelterDogAdoptionController is implemented
-// Route::get('/shelter-dogs', [ShelterDogAdoptionController::class, 'index'])->name('shelter-dogs.index');
-// Route::get('/shelter-dogs/{shelterDog}', [ShelterDogAdoptionController::class, 'show'])->name('shelter-dogs.show');
-// Route::post('/shelter-dogs/{shelterDog}/adopt', [ShelterDogAdoptionController::class, 'adopt'])->name('shelter-dogs.adopt')->middleware('auth');
+// Shelter dog adoption routes
+use App\Http\Controllers\ShelterDogAdoptionController;
+
+Route::get('/shelter-dogs', [ShelterDogAdoptionController::class, 'index'])->name('shelter-dogs.index');
+Route::get('/shelter-dogs/{shelterDog}', [ShelterDogAdoptionController::class, 'show'])->name('shelter-dogs.show');
+Route::post('/shelter-dogs/{shelterDog}/adopt', [ShelterDogAdoptionController::class, 'adopt'])->name('shelter-dogs.adopt')->middleware('auth');
 
 // User routes
 Route::middleware(['auth', 'user'])->prefix('user')->name('user.')->group(function () {
@@ -151,7 +152,6 @@ Route::middleware(['auth', 'shelter'])->prefix('shelter')->name('shelter.')->gro
     Route::get('/dogs/{dog}/edit', [ShelterController::class, 'editDog'])->name('dogs.edit');
     Route::put('/dogs/{dog}', [ShelterController::class, 'updateDog'])->name('dogs.update');
     Route::delete('/dogs/{dog}', [ShelterController::class, 'destroyDog'])->name('dogs.destroy');
-    Route::patch('/dogs/{dog}/toggle-active', [ShelterController::class, 'toggleActive'])->name('dogs.toggle-active');
 
     // Shelter application management
     Route::get('/applications', [ShelterController::class, 'indexApplications'])->name('applications.index');

@@ -95,6 +95,10 @@
     <script src="{{ asset('js/test-swipe.js') }}"></script>
     <script src="{{ asset('js/csrf-debug.js') }}"></script>
     @endpush
+    
+    @push('styles')
+    <link rel="stylesheet" href="{{ asset('css/dog-tinder.css') }}">
+    @endpush
 
     @push('styles')
     <style>

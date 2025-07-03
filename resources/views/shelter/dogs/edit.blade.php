@@ -50,14 +50,6 @@
                         </select>
                     </div>
 
-                    <!-- Active -->
-                    <div class="mt-4">
-                        <label for="active" class="block font-medium text-sm text-gray-700 dark:text-gray-300">Active</label>
-                        <select id="active" name="active" class="block mt-1 w-full" required>
-                            <option value="1" {{ old('active', $dog->active) ? 'selected' : '' }}>Active</option>
-                            <option value="0" {{ !old('active', $dog->active) ? 'selected' : '' }}>Inactive</option>
-                        </select>
-                    </div>
 
                     <!-- Description -->
                     <div class="mt-4">

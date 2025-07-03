@@ -137,6 +137,25 @@ function swipeDog(dogId, action, button) {
 
     const buttons = card.querySelectorAll('.like-btn, .dislike-btn');
     buttons.forEach(btn => btn.disabled = true);
+    
+    // Find the next card to prepare for animation
+    const allCards = document.querySelectorAll('.dog-card');
+    let nextCard = null;
+    let foundCurrent = false;
+    
+    allCards.forEach(c => {
+        if (foundCurrent && !nextCard && !c.classList.contains('swipe-left') && !c.classList.contains('swipe-right')) {
+            nextCard = c;
+        }
+        if (c === card) {
+            foundCurrent = true;
+        }
+    });
+    
+    if (nextCard) {
+        // Prepare next card for animation
+        nextCard.style.zIndex = '0';
+    }
 
     // Get CSRF token
     const csrfToken = document.querySelector('meta[name="csrf-token"]');
@@ -202,7 +221,26 @@ function swipeDog(dogId, action, button) {
             
             if (data.success) {
                 console.log(`Successful swipe (${action}) for dog ${dogId}`);
+                
+                // Apply swipe animation class
                 card.classList.add(action === 'like' ? 'swipe-right' : 'swipe-left');
+
+                // Find the next card to animate
+                const allCards = document.querySelectorAll('.dog-card');
+                let nextCard = null;
+                let foundCurrent = false;
+                
+                allCards.forEach(c => {
+                    if (foundCurrent && !nextCard && 
+                        !c.classList.contains('swipe-left') && 
+                        !c.classList.contains('swipe-right') && 
+                        !c.style.display === 'none') {
+                        nextCard = c;
+                    }
+                    if (c === card) {
+                        foundCurrent = true;
+                    }
+                });
 
                 if (data.is_match) {
                     console.log('Match found with:', data.matched_user);
@@ -211,8 +249,16 @@ function swipeDog(dogId, action, button) {
                     }, 500);
                 }
 
+                // After swipe animation completes
                 setTimeout(() => {
                     card.style.display = 'none';
+                    
+                    // Animate the next card if it exists
+                    if (nextCard) {
+                        nextCard.classList.add('next-card');
+                        nextCard.style.zIndex = '1';
+                    }
+                    
                     const remainingCards = document.querySelectorAll('.dog-card:not([style*="display: none"])');
                     console.log(`${remainingCards.length} dog cards remaining`);
                     
