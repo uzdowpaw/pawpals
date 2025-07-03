@@ -16,8 +16,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-        html, body {
-            overflow: hidden;
+        html,
+        body {
+            overflow-y: auto;
+            height: auto;
+            min-height: 100%;
         }
     </style>
 </head>
