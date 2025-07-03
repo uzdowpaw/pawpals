@@ -35,7 +35,7 @@ class DogTinderController extends Controller
             'dog_id' => $request->dog_id,
             'action' => $request->action
         ]);
-        
+
         $request->validate([
             'dog_id' => 'required|exists:dogs,id',
             'action' => 'required|in:like,dislike'

@@ -48,7 +48,7 @@
 
                 <!-- Action buttons -->
                 <div class="flex justify-center space-x-8 mt-6">
-                    <button data-dog-id="{{ $dog->id }}" 
+                    <button data-dog-id="{{ $dog->id }}"
                         class="dislike-btn bg-red-500 hover:bg-red-600 text-white rounded-full p-4 transition-colors shadow-lg">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -91,6 +91,9 @@
 
     @push('scripts')
     <script src="{{ asset('js/dog-tinder.js') }}"></script>
+    <script src="{{ asset('js/dog-tinder-debug.js') }}"></script>
+    <script src="{{ asset('js/test-swipe.js') }}"></script>
+    <script src="{{ asset('js/csrf-debug.js') }}"></script>
     @endpush
 
     @push('styles')

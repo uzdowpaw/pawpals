@@ -241,7 +241,7 @@
             </nav>
 
             <!-- User Info -->
-            <div class="p-4 border-t border-gray-700">
+            <div class="p-4 border-t border-white/20">
                 <div class="flex items-center">
                     <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3">
                         <span class="text-sm font-medium">{{ substr(Auth::user()->name, 0, 1) }}</span>

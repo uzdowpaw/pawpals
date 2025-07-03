@@ -1,6 +1,6 @@
 <x-admin-layout>
     <x-slot name="header">
-        <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">Admin Dashboard</h1>
+        <h1 class="text-2xl font-semibold text-gray-100 dark:text-white">Admin Dashboard</h1>
     </x-slot>
 
     <!-- Dashboard Stats -->

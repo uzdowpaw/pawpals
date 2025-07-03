@@ -169,3 +169,4 @@ Route::get('/storage/{filename}', function ($filename) {
 })->where('filename', '.*');
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/check-match.php';

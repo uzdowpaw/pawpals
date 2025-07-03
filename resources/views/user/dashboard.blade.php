@@ -1,6 +1,6 @@
 <x-user-layout>
     <x-slot name="header">
-        <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">User Dashboard</h1>
+        <h1 class="text-2xl font-semibold text-gray-100 dark:text-white">User Dashboard</h1>
 
         @if(session('upcoming_reminders'))
         <div id="reminder-popup" class="fixed inset-0 bg-gray-800 bg-opacity-75 z-50 h-screen">
