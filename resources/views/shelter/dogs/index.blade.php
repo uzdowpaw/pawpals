@@ -57,7 +57,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="text-center py-4" style="background-color: #FCECDD;">No dogs found.</td>
+                    <td colspan="7" class="text-center py-4" style="background-color: #FCECDD;">No dogs found. Add one to get started!</td>
                 </tr>
                 @endforelse
             </tbody>

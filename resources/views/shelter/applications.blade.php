@@ -47,13 +47,13 @@
                 </td>
                 <td class="px-5 py-4 text-sm">
                     <div class="flex space-x-2">
-                        <form action="{{ route('shelter.applications.update', $application) }}" method="POST" class="inline-block">
+                        <form action="{{ route('shelter.applications.update', $application->id) }}" method="POST" class="inline-block">
                             @csrf
                             @method('PATCH')
                             <input type="hidden" name="status" value="approved">
                             <button type="submit" class="shelter-button-secondary text-xs px-3 py-1">Approve</button>
                         </form>
-                        <form action="{{ route('shelter.applications.update', $application) }}" method="POST" class="inline-block">
+                        <form action="{{ route('shelter.applications.update', $application->id) }}" method="POST" class="inline-block">
                             @csrf
                             @method('PATCH')
                             <input type="hidden" name="status" value="rejected">
@@ -65,7 +65,7 @@
             @empty
             <tr>
                 <td colspan="5" class="px-5 py-8 text-center text-sm text-gray-500" style="background-color: #FCECDD;">
-                    No applications found.
+                    No pending applications. When a user applies to adopt one of your dogs, you will see it here.
                 </td>
             </tr>
             @endforelse

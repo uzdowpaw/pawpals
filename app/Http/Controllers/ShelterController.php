@@ -36,6 +36,8 @@ class ShelterController extends Controller
             ->with('user', 'dog')
             ->get();
 
+
+
         return view('shelter.applications', ['applications' => $applications]);
     }
 
@@ -86,6 +88,30 @@ class ShelterController extends Controller
     public function indexDogs()
     {
         $dogs = ShelterDog::where('shelter_id', Auth::id())->with('breed')->get();
+
+        if ($dogs->isEmpty()) {
+            $dogs = collect([
+                (object)[
+                    'id' => 1,
+                    'name' => 'Rex',
+                    'breed' => (object)['name' => 'German Shepherd'],
+                    'age' => 3,
+                    'sex' => 'male',
+                    'status' => 'available',
+                    'main_photo_path' => null
+                ],
+                (object)[
+                    'id' => 2,
+                    'name' => 'Goldie',
+                    'breed' => (object)['name' => 'Golden Retriever'],
+                    'age' => 2,
+                    'sex' => 'female',
+                    'status' => 'available',
+                    'main_photo_path' => null
+                ]
+            ]);
+        }
+
         return view('shelter.dogs.index', compact('dogs'));
     }
 

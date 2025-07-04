@@ -1,8 +1,8 @@
 /* Chat Sidebar */
 #chat-sidebar {
     width: 320px;
-    background-color: #00809D;
-    border-left: 1px solid #e5e7eb;
+    background-color: #C96868;
+    border-left: 2px solid #7EACB5;
     overflow-y: auto;
     padding: 1rem;
 }
@@ -30,8 +30,8 @@
 }
 
 .chat-user-item:hover {
-    background-color: #FCECDD;
-    border-color: #FF7601;
+    background-color: #FADFA1;
+    border-color: #7EACB5;
 }
 
 /* Chat Windows Container */
@@ -51,9 +51,9 @@
 .chat-window {
     width: 280px;
     height: 350px;
-    background-color: white;
+    background-color: #FFF4EA;
     border-radius: 12px 12px 0 0;
-    border: 1px solid #e5e7eb;
+    border: 2px solid #7EACB5;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -76,7 +76,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 14px;
-    background-color: #00809D;
+    background-color: #C96868;
     color: white;
     cursor: pointer;
     border-radius: 12px 12px 0 0;
@@ -136,14 +136,14 @@
 
 .chat-message-self {
     align-self: flex-end;
-    background-color: #FF7601;
+    background-color: #C96868;
     color: white;
     border-bottom-right-radius: 4px;
 }
 
 .chat-message-other {
     align-self: flex-start;
-    background-color: #FCECDD;
+    background-color: #FADFA1;
     color: #374151;
     border-bottom-left-radius: 4px;
 }
@@ -197,12 +197,12 @@
 }
 
 .chat-message-input:focus {
-    border-color: #FF7601;
+    border-color: #7EACB5;
     outline: none;
 }
 
 .chat-send-button {
-    background-color: #FF7601;
+    background-color: #C96868;
     color: white;
     border: none;
     border-radius: 50%;
@@ -217,7 +217,7 @@
 }
 
 .chat-send-button:hover {
-    background-color: #e66a01;
+    background-color: #7EACB5;
 }
 
 /* Responsive Adjustments */
@@ -279,7 +279,7 @@
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background-color: #FF7601;
+    background-color: #C96868;
     color: white;
     display: none;
     align-items: center;
@@ -287,11 +287,11 @@
     cursor: pointer;
     z-index: 50;
     transition: all 0.2s ease;
-    border: 2px solid #e5e7eb;
+    border: 2px solid #7EACB5;
 }
 
 .chat-toggle-button:hover {
-    background-color: #e66a01;
+    background-color: #7EACB5;
 }
 
 @media (max-width: 768px) {

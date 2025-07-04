@@ -1,11 +1,1 @@
-Shelter Color Scheme 
-
-Primary Colors:
-#C96868
-#FADFA1
-
-Accent Colors:
-#7EACB5
-
-Neutral Colors:
-#FFF4EA
+Shelter Color Scheme Primary Colors: #C96868 #FADFA1 Accent Colors: #7EACB5 Neutral Colors: #FFF4EA

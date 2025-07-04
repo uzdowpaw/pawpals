@@ -140,13 +140,13 @@
                 <!-- Top Bar -->
                 <header class="flex justify-between items-center p-6 shelter-header">
                     <div class="flex items-center">
-                        <h2 class="font-semibold text-sm text-gray-800 leading-tight">{{ $header }}</h2>
+                        <h2 class="font-semibold text-sm text-gray-800 leading-tight">@yield('header')</h2>
                     </div>
                     <div class="flex items-center space-x-4"><span class="text-gray-800 text-sm">Welcome, {{ Auth::user()->name }}!</span></div>
                 </header>
 
                 <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
-                    {{ $slot }}
+                    @yield('content')
                 </main>
             </div>
             <!-- Chat Sidebar -->
