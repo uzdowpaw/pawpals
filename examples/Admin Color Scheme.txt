@@ -1,0 +1,12 @@
+Shelter Color Scheme 
+
+Primary Colors:
+#DA6C6C
+#EAEBD0
+
+Accent Colors:
+#CD5656
+#AF3E3E
+
+Neutral Colors:
+#FFF4EA

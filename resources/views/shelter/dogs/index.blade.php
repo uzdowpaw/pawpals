@@ -10,18 +10,18 @@
 <div class="container mx-auto">
     <h1 class="text-2xl font-bold mb-4">Manage Your Dogs</h1>
 
-    <a href="{{ route('shelter.dogs.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 inline-block">Add New Dog</a>
+    <a href="{{ route('shelter.dogs.create') }}" class="shelter-button-primary px-4 py-2 rounded mb-4 inline-block">Add New Dog</a>
 
     @if(session('success'))
-    <div class="bg-green-500 text-white p-4 rounded mb-4">
+    <div class="p-4 rounded mb-4" style="background-color: #FCECDD; color: #00809D; border: 1px solid #F3A26D;">
         {{ session('success') }}
     </div>
     @endif
 
-    <div class="bg-white shadow-md rounded my-6">
+    <div class="shelter-card my-6">
         <table class="min-w-full table-auto">
             <thead>
-                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <tr style="background-color: #F3A26D; color: white;" class="uppercase text-sm leading-normal">
                     <th class="py-3 px-6 text-left">Name</th>
                     <th class="py-3 px-6 text-left">Photo</th>
                     <th class="py-3 px-6 text-left">Breed</th>
@@ -33,8 +33,8 @@
             </thead>
             <tbody class="text-gray-600 text-sm font-light">
                 @forelse ($dogs as $dog)
-                <tr class="border-b border-gray-200 hover:bg-gray-100">
-                    <td class="py-3 px-6 text-left whitespace-nowrap">{{ $dog->name }}</td>
+                <tr class="border-b hover:bg-gray-50" style="border-color: #FCECDD;">
+                    <td class="py-3 px-6 text-left">{{ $dog->name }}</td>
                     <td class="py-3 px-6 text-left">
                         @if($dog->main_photo_path)
                         <img src="{{ url('storage/' . $dog->main_photo_path) }}" alt="{{ $dog->name }}" class="w-16 h-16 object-cover rounded-full">
@@ -47,17 +47,17 @@
                     <td class="py-3 px-6 text-center">{{ $dog->sex }}</td>
                     <td class="py-3 px-6 text-center">{{ $dog->status }}</td>
                     <td class="py-3 px-6 text-center">
-                        <a href="{{ route('shelter.dogs.edit', $dog->id) }}" class="bg-blue-500 text-white px-2 py-1 rounded">Edit</a>
+                        <a href="{{ route('shelter.dogs.edit', $dog->id) }}" class="shelter-button-secondary px-2 py-1 rounded mr-2">Edit</a>
                         <form action="{{ route('shelter.dogs.destroy', $dog->id) }}" method="POST" class="inline-block">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded" onclick="return confirm('Are you sure?')">Delete</button>
+                            <button type="submit" class="px-2 py-1 rounded text-white" style="background-color: #dc2626; border: 1px solid #b91c1c;" onclick="return confirm('Are you sure?')">Delete</button>
                         </form>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="text-center py-4">No dogs found.</td>
+                    <td colspan="7" class="text-center py-4" style="background-color: #FCECDD;">No dogs found.</td>
                 </tr>
                 @endforelse
             </tbody>
