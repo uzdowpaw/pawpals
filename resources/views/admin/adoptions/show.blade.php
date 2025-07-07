@@ -1,32 +1,32 @@
 <x-admin-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl admin-text-primary leading-tight">
             {{ __('Adoption Details') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+            <div class="admin-card overflow-hidden sm:rounded-lg">
+                <div class="p-6 admin-text-primary">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-medium">Adoption #{{ $adoption->id ?? 'N/A' }}</h3>
-                        <a href="{{ route('admin.adoptions.index') }}" 
-                           class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                        <h3 class="text-lg font-medium admin-text-primary">Adoption #{{ $adoption->id ?? 'N/A' }}</h3>
+                        <a href="{{ route('admin.adoptions.index') }}"
+                            class="admin-btn-secondary">
                             Back to Adoptions
                         </a>
                     </div>
 
                     @if(session('success'))
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                            {{ session('success') }}
-                        </div>
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                        {{ session('success') }}
+                    </div>
                     @endif
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Adoption Information -->
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <h4 class="text-lg font-semibold mb-4">Adoption Information</h4>
+                        <div class="p-4 rounded-lg" style="background-color: #FFF4EA; border: 1px solid #CD5656;">
+                            <h4 class="text-lg font-semibold mb-4 admin-text-primary">Adoption Information</h4>
                             <div class="space-y-2">
                                 <div>
                                     <span class="font-medium">Status:</span>
@@ -51,8 +51,8 @@
                         </div>
 
                         <!-- User Information -->
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <h4 class="text-lg font-semibold mb-4">Applicant Information</h4>
+                        <div class="p-4 rounded-lg" style="background-color: #FFF4EA; border: 1px solid #CD5656;">
+                            <h4 class="text-lg font-semibold mb-4 admin-text-primary">Applicant Information</h4>
                             <div class="space-y-2">
                                 <div>
                                     <span class="font-medium">Name:</span>
@@ -70,8 +70,8 @@
                         </div>
 
                         <!-- Pet Information -->
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <h4 class="text-lg font-semibold mb-4">Pet Information</h4>
+                        <div class="p-4 rounded-lg" style="background-color: #FFF4EA; border: 1px solid #CD5656;">
+                            <h4 class="text-lg font-semibold mb-4 admin-text-primary">Pet Information</h4>
                             <div class="space-y-2">
                                 <div>
                                     <span class="font-medium">Name:</span>
@@ -89,8 +89,8 @@
                         </div>
 
                         <!-- Application Details -->
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <h4 class="text-lg font-semibold mb-4">Application Details</h4>
+                        <div class="p-4 rounded-lg" style="background-color: #FFF4EA; border: 1px solid #CD5656;">
+                            <h4 class="text-lg font-semibold mb-4 admin-text-primary">Application Details</h4>
                             <div class="space-y-2">
                                 <div>
                                     <span class="font-medium">Reason for Adoption:</span>
@@ -107,35 +107,35 @@
                     <!-- Action Buttons -->
                     <div class="mt-6 flex space-x-4">
                         @if(isset($adoption->status) && $adoption->status === 'pending')
-                            <form action="{{ route('admin.adoptions.update', $adoption->id ?? 1) }}" method="POST" class="inline">
-                                @csrf
-                                @method('PATCH')
-                                <input type="hidden" name="status" value="approved">
-                                <button type="submit" 
-                                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                                        onclick="return confirm('Are you sure you want to approve this adoption?')">
-                                    Approve Adoption
-                                </button>
-                            </form>
+                        <form action="{{ route('admin.adoptions.update', $adoption->id ?? 1) }}" method="POST" class="inline">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="status" value="approved">
+                            <button type="submit"
+                                class="admin-btn-primary"
+                                onclick="return confirm('Are you sure you want to approve this adoption?')">
+                                Approve Adoption
+                            </button>
+                        </form>
 
-                            <form action="{{ route('admin.adoptions.update', $adoption->id ?? 1) }}" method="POST" class="inline">
-                                @csrf
-                                @method('PATCH')
-                                <input type="hidden" name="status" value="rejected">
-                                <button type="submit" 
-                                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                        onclick="return confirm('Are you sure you want to reject this adoption?')">
-                                    Reject Adoption
-                                </button>
-                            </form>
+                        <form action="{{ route('admin.adoptions.update', $adoption->id ?? 1) }}" method="POST" class="inline">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="status" value="rejected">
+                            <button type="submit"
+                                class="admin-btn-secondary"
+                                onclick="return confirm('Are you sure you want to reject this adoption?')">
+                                Reject Adoption
+                            </button>
+                        </form>
                         @endif
 
                         <form action="{{ route('admin.adoptions.destroy', $adoption->id ?? 1) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" 
-                                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                                    onclick="return confirm('Are you sure you want to delete this adoption record?')">
+                            <button type="submit"
+                                class="admin-btn-secondary"
+                                onclick="return confirm('Are you sure you want to delete this adoption record?')">
                                 Delete Record
                             </button>
                         </form>

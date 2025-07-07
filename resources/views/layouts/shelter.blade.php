@@ -30,7 +30,7 @@
 
         .shelter-sidebar {
             background-color: var(--shelter-primary);
-            border-right: 1px solid #F3A26D
+
         }
 
         .shelter-card {
@@ -150,7 +150,7 @@
                 </main>
             </div>
             <!-- Chat Sidebar -->
-            <div id="chat-sidebar" class="w-80 bg-white text-gray-800 p-4 border-l border-gray-300 flex flex-col h-full">
+            <div id="chat-sidebar" class="w-80 bg-white text-gray-800 p-4 flex flex-col h-full">
                 @include('chat.sidebar')
             </div>
         </div>

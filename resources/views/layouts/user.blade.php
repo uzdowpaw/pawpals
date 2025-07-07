@@ -59,11 +59,7 @@
             transition: all 0.3s ease;
         }
 
-        .user-card:hover {
-            background-color: #FADFA1;
-            transform: translateY(-2px);
-            border-color: #C96868;
-        }
+        
     </style>
 </head>
 
