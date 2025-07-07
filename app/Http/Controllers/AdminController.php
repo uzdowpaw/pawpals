@@ -367,11 +367,7 @@ class AdminController extends Controller
      */
     public function adoptions()
     {
-        // Assuming you have an Adoption model
-        // $adoptions = Adoption::latest()->paginate(15);
-        // return view('admin.adoptions.index', compact('adoptions'));
-        // For now, returning an empty array or dummy data
-        $adoptions = [];
+        $adoptions = \App\Models\AdoptionApplication::with(['user', 'pet'])->latest()->paginate(15);
         return view('admin.adoptions.index', compact('adoptions'));
     }
 
@@ -380,9 +376,7 @@ class AdminController extends Controller
      */
     public function showAdoption($adoptionId)
     {
-        // $adoption = Adoption::findOrFail($adoptionId);
-        // return view('admin.adoptions.show', compact('adoption'));
-        $adoption = ['id' => $adoptionId, 'status' => 'pending']; // Dummy data
+        $adoption = \App\Models\AdoptionApplication::with(['user', 'pet'])->findOrFail($adoptionId);
         return view('admin.adoptions.show', compact('adoption'));
     }
 
@@ -391,9 +385,18 @@ class AdminController extends Controller
      */
     public function updateAdoption(Request $request, $adoptionId)
     {
-        // $adoption = Adoption::findOrFail($adoptionId);
-        // $adoption->update($request->all());
-        // return redirect()->route('admin.adoptions.index')->with('success', 'Adoption updated successfully.');
+        $request->validate([
+            'status' => 'required|in:approved,rejected,pending',
+        ]);
+        
+        $adoption = \App\Models\AdoptionApplication::findOrFail($adoptionId);
+        $adoption->update(['status' => $request->status]);
+        
+        // Notify the user about the status change
+        if (class_exists('\App\Notifications\AdoptionApplicationStatusUpdated')) {
+            $adoption->user->notify(new \App\Notifications\AdoptionApplicationStatusUpdated($adoption));
+        }
+        
         return redirect()->route('admin.adoptions.index')->with('success', 'Adoption updated successfully.');
     }
 
@@ -402,9 +405,8 @@ class AdminController extends Controller
      */
     public function destroyAdoption($adoptionId)
     {
-        // $adoption = Adoption::findOrFail($adoptionId);
-        // $adoption->delete();
-        // return redirect()->route('admin.adoptions.index')->with('success', 'Adoption deleted successfully.');
+        $adoption = \App\Models\AdoptionApplication::findOrFail($adoptionId);
+        $adoption->delete();
         return redirect()->route('admin.adoptions.index')->with('success', 'Adoption deleted successfully.');
     }
 }

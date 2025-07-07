@@ -18,6 +18,7 @@ class ShelterDog extends Model
         'main_photo_path',
         'shelter_id',
         'status',
+        'dog_id',
     ];
 
     public function shelter()
@@ -33,5 +34,10 @@ class ShelterDog extends Model
     public function photos()
     {
         return $this->morphMany(Photo::class, 'imageable');
+    }
+
+    public function dog()
+    {
+        return $this->belongsTo(Dog::class);
     }
 }

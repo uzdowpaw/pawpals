@@ -79,7 +79,7 @@ class ShelterDogAdoptionController extends Controller
 
         // Add required fields
         $validatedData['user_id'] = Auth::id();
-        $validatedData['dog_id'] = $shelterDog->id;
+        $validatedData['dog_id'] = $shelterDog->id; // Use the shelter dog's ID directly
         $validatedData['shelter_id'] = $shelterDog->shelter_id;
         $validatedData['dog_type'] = 'shelter_dog';
 

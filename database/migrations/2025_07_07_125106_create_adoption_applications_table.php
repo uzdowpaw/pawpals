@@ -11,8 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('adoption_applications', function (Blueprint $table) {
-            // Add all the adoption form fields
+        Schema::create('adoption_applications', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('dog_id'); // Remove constraint to allow both Dog and ShelterDog IDs
+            $table->foreignId('shelter_id')->constrained('users')->onDelete('cascade');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->text('message')->nullable();
+            $table->string('dog_type');
+
+            // Adoption form fields
             $table->text('applicant_name')->nullable();
             $table->text('household_members')->nullable();
             $table->text('address')->nullable();
@@ -69,6 +77,8 @@ return new class extends Migration
             $table->boolean('post_adoption_visit_agreement')->nullable();
             $table->boolean('personal_pickup')->nullable();
             $table->boolean('gdpr_agreement')->nullable();
+
+            $table->timestamps();
         });
     }
 
@@ -77,66 +87,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('adoption_applications', function (Blueprint $table) {
-            // Drop all the added columns
-            $table->dropColumn([
-                'applicant_name',
-                'household_members',
-                'address',
-                'phone',
-                'family_agreement',
-                'adoption_reason',
-                'ready_date',
-                'specific_dog',
-                'consider_other_dog',
-                'lifestyle_description',
-                'desired_temperament',
-                'children_info',
-                'children_rules',
-                'allergies',
-                'current_pets',
-                'pet_introduction_plan',
-                'pet_conflict_plan',
-                'aware_of_adjustment',
-                'previous_pets',
-                'previous_pet_returned',
-                'living_conditions',
-                'landlord_permission',
-                'dog_living_location',
-                'walk_frequency',
-                'walk_knowledge',
-                'unsupervised_outside',
-                'off_leash_plan',
-                'alone_time',
-                'vacation_plan',
-                'separation_preparation',
-                'pet_hotel_name',
-                'long_term_commitment',
-                'adjustment_plan',
-                'behaviorist_commitment',
-                'trainer_name',
-                'education_sources',
-                'puppy_experience',
-                'puppy_training_plan',
-                'difficult_situation',
-                'dog_behavior_knowledge',
-                'dog_needs',
-                'physical_capability',
-                'mental_capability',
-                'monthly_cost_estimate',
-                'emergency_fund',
-                'preventative_care',
-                'feeding_plan',
-                'diet_consultation',
-                'return_agreement',
-                'bad_behavior_response',
-                'return_scenario',
-                'spay_neuter_opinion',
-                'pre_adoption_visit_agreement',
-                'post_adoption_visit_agreement',
-                'personal_pickup',
-                'gdpr_agreement'
-            ]);
-        });
+        Schema::dropIfExists('adoption_applications');
     }
 };

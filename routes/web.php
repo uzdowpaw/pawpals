@@ -7,6 +7,7 @@ use App\Http\Controllers\UserPetController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ShelterController;
 use App\Http\Controllers\DogTinderController;
+use App\Http\Controllers\AdoptionApplicationController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 
@@ -154,9 +155,10 @@ Route::middleware(['auth', 'shelter'])->prefix('shelter')->name('shelter.')->gro
     Route::delete('/dogs/{dog}', [ShelterController::class, 'destroyDog'])->name('dogs.destroy');
 
     // Shelter application management
-    Route::get('/applications', [ShelterController::class, 'indexApplications'])->name('applications.index');
-    Route::patch('/applications/{application}', [ShelterController::class, 'updateApplication'])->name('applications.update');
-    Route::get('/history', [ShelterController::class, 'applicationHistory'])->name('applications.history');
+    Route::get('/applications', [AdoptionApplicationController::class, 'index'])->name('applications.index');
+    Route::get('/applications/{application}', [AdoptionApplicationController::class, 'show'])->name('applications.show');
+    Route::patch('/applications/{application}', [AdoptionApplicationController::class, 'update'])->name('applications.update');
+    Route::get('/history', [AdoptionApplicationController::class, 'history'])->name('applications.history');
 });
 
 // Route to serve images from storage/app/public

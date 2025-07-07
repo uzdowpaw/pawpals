@@ -296,6 +296,9 @@ const chatModule = {
 // Initialize chat when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     chatModule.init();
+    
+    // Expose chatModule to the global window object
+    window.chatModule = chatModule;
 });
 
 export default chatModule;

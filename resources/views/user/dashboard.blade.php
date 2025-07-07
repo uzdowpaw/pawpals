@@ -9,7 +9,7 @@
                 <p class="text-gray-700 dark:text-gray-300 mb-4 text-center">You have pet care reminders due in the next 7 days:</p>
                 <ul class="list-disc pl-5 mb-4 text-gray-700 dark:text-gray-300">
                     @foreach(session('upcoming_reminders') as $reminder)
-                    <li>{{ $reminder->name }} for {{ $reminder->dog->name }} on {{ \Carbon\Carbon::parse($reminder->reminder_date)->format('M d, Y') }}</li>
+                    <li>{{ $reminder->name }} for {{ $reminder->dog ? $reminder->dog->name : 'Unknown Dog' }} on {{ \Carbon\Carbon::parse($reminder->reminder_date)->format('M d, Y') }}</li>
                     @endforeach
                 </ul>
                 <button id="close-popup" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Got it!</button>

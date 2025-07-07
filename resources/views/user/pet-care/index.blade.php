@@ -91,7 +91,7 @@
                         <div class="flex items-center justify-between p-4 rounded-lg border-2" style="background-color: #FADFA1; border-color: #C96868;">
                             <div class="flex-1">
                                 <h4 class="font-medium" style="color: #C96868;">{{ $reminder->title }}</h4>
-                                <p class="text-sm" style="color: #7EACB5;">{{ $reminder->dog->name }} • {{ $reminder->reminder_date->format('M j, Y g:i A') }}</p>
+                                <p class="text-sm" style="color: #7EACB5;">{{ $reminder->dog ? $reminder->dog->name : 'Unknown Dog' }} • {{ $reminder->reminder_date->format('M j, Y g:i A') }}</p>
                                 @if($reminder->description)
                                 <p class="text-sm mt-1" style="color: #7EACB5;">{{ $reminder->description }}</p>
                                 @endif
@@ -122,7 +122,7 @@
                         <div class="flex items-center justify-between p-4 rounded-lg border-2" style="background-color: #FFF4EA; border-color: #7EACB5;">
                             <div class="flex-1">
                                 <h4 class="font-medium" style="color: #C96868;">{{ $reminder->title }}</h4>
-                                <p class="text-sm" style="color: #7EACB5;">{{ $reminder->dog->name }} • {{ $reminder->reminder_date->format('M j, Y g:i A') }}</p>
+                                <p class="text-sm" style="color: #7EACB5;">{{ $reminder->dog ? $reminder->dog->name : 'Unknown Dog' }} • {{ $reminder->reminder_date->format('M j, Y g:i A') }}</p>
                                 @if($reminder->description)
                                 <p class="text-sm mt-1" style="color: #7EACB5;">{{ $reminder->description }}</p>
                                 @endif

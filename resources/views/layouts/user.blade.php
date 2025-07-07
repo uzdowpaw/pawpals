@@ -188,7 +188,11 @@
                 <!-- Page Content -->
                 <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
                     <div class="max-w-7xl mx-auto">
-                        {{ $slot }}
+                        @hasSection('content')
+                            @yield('content')
+                        @else
+                            {{ $slot ?? '' }}
+                        @endif
                     </div>
                 </main>
             </div>

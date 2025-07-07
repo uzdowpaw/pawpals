@@ -29,46 +29,6 @@ class ShelterController extends Controller
         return view('shelter.dashboard', compact('totalDogs', 'availableDogs', 'adoptedDogs', 'pendingApplications'));
     }
 
-    public function indexApplications()
-    {
-        $applications = AdoptionApplication::where('shelter_id', Auth::id())
-            ->where('status', 'pending')
-            ->with('user', 'dog')
-            ->get();
-
-
-
-        return view('shelter.applications', ['applications' => $applications]);
-    }
-
-    public function updateApplication(Request $request, AdoptionApplication $application)
-    {
-        $request->validate([
-            'status' => 'required|in:approved,rejected',
-        ]);
-
-        // Ensure the shelter owns this application
-        if ($application->shelter_id !== Auth::id()) {
-            abort(403);
-        }
-
-        $application->status = $request->status;
-        $application->save();
-
-        if ($application->status === 'approved') {
-            // Update dog status to adopted
-            $application->dog->status = 'adopted';
-            $application->dog->save();
-
-            // Reject other pending applications for the same dog
-            AdoptionApplication::where('dog_id', $application->dog_id)
-                ->where('status', 'pending')
-                ->update(['status' => 'rejected']);
-        }
-
-        return redirect()->route('shelter.applications.index')->with('success', 'Application status updated successfully.');
-    }
-
     // Removed toggleActive method as active column is no longer used
 
     public function adoptionGallery()
@@ -77,12 +37,6 @@ class ShelterController extends Controller
             ->with('breed', 'shelter', 'photos')
             ->get();
         return view('user.adoptions.adoption-gallery', ['dogs' => $availableDogs]);
-    }
-
-    public function applicationHistory()
-    {
-        // Logic to fetch and display application history
-        return view('shelter.history');
     }
 
     public function indexDogs()

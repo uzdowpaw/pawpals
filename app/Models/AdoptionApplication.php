@@ -81,17 +81,27 @@ class AdoptionApplication extends Model
 
     public function dog()
     {
-        // If dog_type is set to 'shelter_dog', return ShelterDog model
-        if ($this->dog_type === 'shelter_dog') {
-            return $this->belongsTo(ShelterDog::class, 'dog_id');
-        }
-
-        // Default to Dog model
-        return $this->belongsTo(Dog::class);
+        // Only shelter dogs should be able to be adopted
+        // Always return ShelterDog model regardless of dog_type
+        return $this->belongsTo(ShelterDog::class, 'dog_id');
     }
 
     public function shelter()
     {
         return $this->belongsTo(User::class, 'shelter_id');
+    }
+
+    public function shelterDog()
+    {
+        return $this->belongsTo(ShelterDog::class, 'dog_id');
+    }
+    
+    /**
+     * Get the pet associated with the adoption application.
+     * This is an alias for the dog relationship, used in admin views.
+     */
+    public function pet()
+    {
+        return $this->dog();
     }
 }

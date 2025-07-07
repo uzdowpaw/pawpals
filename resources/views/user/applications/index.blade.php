@@ -10,11 +10,11 @@
             <div class="p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
                 <div class="flex justify-between items-center">
                     <div>
-                        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Application for {{ $application->dog->name }}</h2>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Submitted to: {{ $application->dog->shelter->name }}</p>
+                        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Application for {{ $application->dog && $application->dog->name ? $application->dog->name : 'Unknown Dog' }}</h2>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Submitted to: {{ $application->dog && $application->dog->shelter ? $application->dog->shelter->name : 'Unknown Shelter' }}</p>
                         <p class="text-sm text-gray-600 dark:text-gray-400">Submitted on: {{ $application->created_at->format('F j, Y') }}</p>
                     </div>
-                    <div class="text-right">
+                    <div class="text-right flex flex-col space-y-2">
                         <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
                                 @switch($application->status)
                                     @case('pending')
@@ -30,6 +30,15 @@
                             ">
                             {{ ucfirst($application->status) }}
                         </span>
+                        @if($application->status === 'approved')
+                        <button 
+                            type="button" 
+                            class="open-chat-btn px-3 py-1 text-xs font-semibold rounded-full text-white bg-blue-500 hover:bg-blue-600" 
+                            data-user-id="{{ $application->shelter_id }}"
+                        >
+                            Message Shelter
+                        </button>
+                        @endif
                     </div>
                 </div>
                 @if($application->message)
@@ -41,10 +50,11 @@
             @empty
             <div class="p-6 text-center">
                 <p class="text-gray-500 dark:text-gray-400">You have not submitted any adoption applications yet.</p>
-                <a href="{{ route('dogs.index') }}" class="mt-4 inline-block bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600">Browse Dogs</a>
+                <a href="{{ route('shelter-dogs.index') }}" class="mt-4 inline-block bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600">Browse Dogs</a>
             </div>
             @endforelse
         </div>
     </div>
 </div>
+    <script src="{{ asset('js/user-chat.js') }}"></script>
 @endsection

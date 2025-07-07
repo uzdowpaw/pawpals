@@ -42,8 +42,8 @@ class MatchNotification extends Notification
             'message' => "It's a match! 💕 You and {$this->matchedUser->name} liked each other's dogs!",
             'matched_user_id' => $this->matchedUser->id,
             'matched_user_name' => $this->matchedUser->name,
-            'dog_id' => $this->dog->id,
-            'dog_name' => $this->dog->name
+            'dog_id' => $this->dog ? $this->dog->id : null,
+            'dog_name' => $this->dog ? $this->dog->name : 'Unknown Dog'
         ];
     }
 }
