@@ -279,8 +279,44 @@ function swipeDog(dogId, action, button) {
 
             } else {
                 console.error('Swipe error from server:', data.error);
-                alert('Error: ' + (data.error || 'Something went wrong'));
-                buttons.forEach(btn => btn.disabled = false);
+                // Don't show the error message to the user
+                // Just silently handle the error and continue
+                if (data.error === 'Already interacted with this dog') {
+                    // Apply swipe animation anyway to provide visual feedback
+                    card.classList.add(action === 'like' ? 'swipe-right' : 'swipe-left');
+                    
+                    // After swipe animation completes
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                        
+                        // Animate the next card if it exists
+                        if (nextCard) {
+                            nextCard.classList.add('next-card');
+                            nextCard.style.zIndex = '1';
+                        }
+                        
+                        const remainingCards = document.querySelectorAll('.dog-card:not([style*="display: none"])');
+                        console.log(`${remainingCards.length} dog cards remaining`);
+                        
+                        if (remainingCards.length === 0) {
+                            const noDogsMessage = document.querySelector('.no-dogs-message');
+                            if (noDogsMessage) {
+                                console.log('No more dogs, showing message');
+                                noDogsMessage.style.display = 'block';
+                            } else {
+                                console.log('No dogs message element not found');
+                                const container = document.querySelector('.dog-cards-container');
+                                if (container) {
+                                    container.innerHTML = '<div class="no-more-dogs">No more dogs to show right now. Check back later!</div>';
+                                }
+                            }
+                        }
+                    }, 500);
+                } else {
+                    // For other errors, show the alert
+                    alert('Error: ' + (data.error || 'Something went wrong'));
+                    buttons.forEach(btn => btn.disabled = false);
+                }
             }
         })
         .catch(error => {
