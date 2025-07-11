@@ -14,41 +14,106 @@
         <title>{{ config('app.name', 'PawPals') }} - Authentication</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Courier+Prime:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <style>
-            * {
-                font-family: 'Inter', sans-serif;
+            :root {
+                --teal: #03A6A1;
+                --cream: #FFE3BB;
+                --orange: #FFA673;
+                --red-orange: #FF4F0F;
             }
+
+            * {
+                font-family: 'Courier Prime', monospace;
+            }
+
             html {
                 scroll-behavior: smooth;
             }
-            .gradient-bg {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+            .retro-shadow {
+                box-shadow: 5px 5px 0px var(--red-orange);
+            }
+
+            .retro-border {
+                border: 3px solid var(--red-orange);
+            }
+
+            .retro-pattern {
+                background-image: radial-gradient(var(--orange) 2px, transparent 2px);
+                background-size: 20px 20px;
+            }
+
+            .retro-title {
+                font-family: 'Pacifico', cursive;
+                color: var(--red-orange);
+                text-shadow: 3px 3px 0px var(--teal);
+            }
+
+            .retro-subtitle {
+                font-family: 'Space Mono', monospace;
+                letter-spacing: 1px;
+            }
+
+            .retro-button {
+                background-color: var(--teal);
+                color: var(--cream);
+                border: 2px solid var(--red-orange);
+                box-shadow: 3px 3px 0px var(--red-orange);
+                transition: all 0.2s ease;
+                transform: translate(0, 0);
+            }
+
+            .retro-button:hover {
+                transform: translate(-2px, -2px);
+                box-shadow: 5px 5px 0px var(--red-orange);
+            }
+
+            .retro-button:active {
+                transform: translate(2px, 2px);
+                box-shadow: 1px 1px 0px var(--red-orange);
+            }
+
+            .retro-card {
+                border: 2px solid var(--teal);
+                box-shadow: 5px 5px 0px var(--orange);
+                background-color: var(--cream);
+                color: #333;
+            }
+
+            .retro-icon-bg {
+                background-color: var(--teal);
+                border: 2px solid var(--red-orange);
+            }
+
+            .retro-circle {
+                background-color: var(--orange);
+                border: 2px solid var(--red-orange);
             }
         </style>
     </head>
-    <body class="bg-gray-900 text-white overflow-x-hidden antialiased">
+    <body class="bg-[var(--cream)] text-[#333] overflow-x-hidden antialiased">
         <!-- Navigation -->
-        <nav class="fixed top-0 w-full z-50 bg-gray-900/80 backdrop-blur-lg border-b border-gray-800">
+        <nav class="fixed top-0 w-full z-50 bg-[var(--teal)] border-b-4 border-[var(--red-orange)]">
             <div class="container mx-auto px-6 py-4">
                 <div class="flex items-center justify-between">
                     <a href="/" class="flex items-center space-x-2">
-                        <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+                        <div class="w-12 h-12 retro-circle rounded-full flex items-center justify-center">
                             <span class="text-xl font-bold">🐾</span>
                         </div>
-                        <span class="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">PawPals</span>
+                        <span class="text-2xl font-bold retro-title">PawPals</span>
                     </a>
                     <div class="flex items-center space-x-4">
                         @if (Route::has('login'))
                             @auth
-                                <a href="{{ route('dashboard') }}" class="px-4 py-2 text-indigo-400 hover:text-indigo-300 transition-colors">Dashboard</a>
+                                <a href="{{ route('dashboard') }}" class="px-4 py-2 text-[var(--cream)] hover:text-white font-bold transition-colors">Dashboard</a>
                             @else
-                                <a href="{{ route('login') }}" class="px-4 py-2 text-gray-300 hover:text-white transition-colors">Sign In</a>
+                                <a href="{{ route('login') }}" class="px-4 py-2 text-[var(--cream)] hover:text-white font-bold transition-colors">Sign In</a>
                                 @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="px-6 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl hover:from-indigo-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">Get Started</a>
+                                    <a href="{{ route('register') }}" class="px-6 py-2 retro-button rounded-none font-bold">Get Started</a>
                                 @endif
                             @endauth
                         @endif
@@ -57,12 +122,12 @@
             </div>
         </nav>
 
-        <div class="min-h-screen flex flex-col items-center justify-center pt-24 pb-12 bg-gray-900">
-            <div class="w-full sm:max-w-md mt-6 px-8 py-10 bg-gray-800/70 backdrop-blur-md shadow-2xl overflow-hidden sm:rounded-2xl border border-gray-700">
+        <div class="min-h-screen flex flex-col items-center justify-center pt-24 pb-12 bg-[var(--cream)]">
+            <div class="w-full sm:max-w-md mt-6 px-8 py-10 retro-card overflow-hidden sm:rounded-none">
                 {{ $slot }}
             </div>
         </div>
 
         <!-- Footer -->
-        <footer id="contact" class="py-12 bg-gray-900 border-t border-gray-800">
+        <footer id="contact" class="py-12 bg-[var(--teal)] border-t-4 border-[var(--red-orange)]">
             <div class=
