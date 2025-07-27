@@ -76,12 +76,12 @@ class DogTinderController extends Controller
                 'dog_owner_id' => $dogOwnerId
             ]);
 
-            // Check if there's a mutual match
+
             if (DogMatch::checkMutualMatch($user->id, $dogOwnerId)) {
                 $isMatch = true;
                 $matchedUser = User::find($dogOwnerId);
 
-                \Log::info('Match found!', [
+                Log::info('Match found!', [
                     'matched_user' => $matchedUser->name,
                     'dog' => $dog->name
                 ]);

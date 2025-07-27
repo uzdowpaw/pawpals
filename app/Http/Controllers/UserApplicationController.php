@@ -11,7 +11,7 @@ class UserApplicationController extends Controller
     public function index()
     {
         $applications = AdoptionApplication::where('user_id', Auth::id())
-            ->where('dog_type', 'shelter_dog') // Ensure only shelter dog applications are shown
+            ->where('dog_type', 'shelter_dog') 
             ->with('dog.shelter')
             ->latest()
             ->get();

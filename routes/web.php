@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/conversations/{conversation}/read', [ChatController::class, 'markAsRead'])->name('messages.read');
     });
 });
-
+// Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
@@ -104,7 +104,7 @@ Route::middleware(['auth', 'user'])->prefix('user')->name('user.')->group(functi
     Route::resource('pets', UserPetController::class)->except(['show']);
     Route::delete('pets/photos/{photo}', [UserPetController::class, 'destroyPhoto'])->name('pets.photos.destroy');
 
-    // Dog Tinder
+    // Connect Users
     Route::get('/browse-dogs', [DogTinderController::class, 'index'])->name('dog-tinder.index');
     Route::get('/adoptions/adoption-gallery', [ShelterController::class, 'adoptionGallery'])->name('adoption-gallery');
     Route::post('/dog-tinder/swipe', [DogTinderController::class, 'swipe'])->name('dog-tinder.swipe');

@@ -43,10 +43,10 @@ class ChatController extends Controller
     {
         // Check if users are matched through the dog tinder system
         $dogTinderMatch = \App\Models\DogMatch::checkMutualMatch($user1->id, $user2->id);
-        
+
         // Check if there's an approved adoption application between the users
         $adoptionMatch = false;
-        
+
         // If user1 is a shelter and user2 is a regular user
         if ($user1->role === 'shelter' && $user2->role === 'user') {
             $adoptionMatch = \App\Models\AdoptionApplication::where('shelter_id', $user1->id)
@@ -61,7 +61,7 @@ class ChatController extends Controller
                 ->where('status', 'approved')
                 ->exists();
         }
-        
+
         // Return true if either match condition is met
         return $dogTinderMatch || $adoptionMatch;
     }
@@ -175,7 +175,6 @@ class ChatController extends Controller
      */
     public function sendMessage(Request $request, Conversation $conversation): JsonResponse
     {
-        // Check if the authenticated user is part of this conversation
         if (!$conversation->users->contains(Auth::id())) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
